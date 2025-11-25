@@ -304,8 +304,8 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY nama LIMIT 5")->fe
 
         .products-showcase {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
             margin-bottom: 4rem;
         }
 
@@ -315,6 +315,9 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY nama LIMIT 5")->fe
             overflow: hidden;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         .product-item:hover {
@@ -324,13 +327,14 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY nama LIMIT 5")->fe
 
         .product-image {
             width: 100%;
-            height: 250px;
+            height: 280px;
             background: linear-gradient(135deg, #f5deb3 0%, #daa520 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
             position: relative;
+            flex-shrink: 0;
         }
 
         .product-image img {
@@ -348,21 +352,25 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY nama LIMIT 5")->fe
             position: absolute;
             top: 1rem;
             right: 1rem;
-            background: var(--primary);
+            background: #8B6F47;
             color: white;
             padding: 0.5rem 1rem;
             border-radius: 50px;
             font-size: 0.85rem;
             font-weight: 600;
             z-index: 1;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .product-data {
             padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .product-category {
-            color: var(--primary);
+            color: #8B6F47;
             font-size: 0.85rem;
             font-weight: 600;
             text-transform: uppercase;
@@ -372,14 +380,16 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY nama LIMIT 5")->fe
 
         .product-name {
             font-weight: 700;
-            color: var(--dark);
+            color: #2D2D2D;
             margin-bottom: 0.5rem;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+            line-height: 1.4;
+            min-height: 2.2em;
         }
 
         .product-price {
-            font-size: 1.8rem;
-            color: var(--primary);
+            font-size: 1.6rem;
+            color: #8B6F47;
             font-weight: 800;
             margin-bottom: 0.5rem;
         }
@@ -394,18 +404,20 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY nama LIMIT 5")->fe
             display: block;
             width: 100%;
             padding: 0.8rem 1rem;
-            background-color: var(--primary);
+            background-color: #8B6F47;
             color: white;
             text-decoration: none;
             border-radius: 0.5rem;
             font-weight: 600;
             transition: all 0.3s ease;
             text-align: center;
+            margin-top: auto;
         }
 
         .btn-product:hover {
-            background-color: var(--dark);
+            background-color: #6B4423;
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 111, 71, 0.3);
         }
 
         .categories-section {

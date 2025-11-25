@@ -126,252 +126,254 @@
 </script>
 
 <style>
-    :root {
-        --primary: #F4E4C1;
-        --secondary: #E8D4B8;
-        --accent: #FFF9F0;
-        --gold: #D4A574;
-        --honey: #C9915D;
-        --text-dark: #2D2D2D;
-        --text-light: #FFFFFF;
-        --bg-light: #FFFBF7;
-        --border: #E6CEB3;
-    }
+        :root {
+            --primary: #8B6F47;
+            --secondary: #D4A574;
+            --accent: #F5E6D3;
+            --gold: #D4A574;
+            --honey: #6B4423;
+            --text-dark: #2D2D2D;
+            --text-light: #FFFFFF;
+            --bg-light: #F5F1ED;
+            --border: #E6CEB3;
+        }
 
-    .footer {
-        background: linear-gradient(135deg, #D4A574 0%, #C9915D 100%);
-        color: white;
-        padding: 2.5rem 0 1rem;
-        margin-top: 4rem;
-        border-top: 3px solid var(--gold);
-    }
+        .footer {
+            background: linear-gradient(135deg, #8B6F47 0%, #6B4423 100%);
+            color: white;
+            padding: 2.5rem 0 1rem;
+            margin-top: 4rem;
+            border-top: 3px solid #D4A574;
+        }
 
-    .footer-container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 0 2rem;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 2rem;
-        margin-bottom: 2rem;
-    }
-
-    .footer-section h3 {
-        color: white;
-        margin-bottom: 1rem;
-        font-size: 1rem;
-        font-weight: 700;
-    }
-
-    .footer-section p {
-        font-size: 0.9rem;
-        line-height: 1.6;
-        color: rgba(255, 255, 255, 0.9);
-    }
-
-    .footer-section ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .footer-section ul li {
-        margin-bottom: 0.6rem;
-        font-size: 0.9rem;
-        color: rgba(255, 255, 255, 0.9);
-    }
-
-    .footer-section a {
-        color: rgba(255, 255, 255, 0.9);
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
-
-    .footer-section a:hover {
-        color: white;
-    }
-
-    /* Opening Hours */
-    .opening-hours {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 0.4rem;
-        padding: 0.75rem;
-        backdrop-filter: blur(8px);
-    }
-
-    .hours-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.5rem 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-        color: white;
-        font-size: 0.85rem;
-    }
-
-    .hours-item:last-child {
-        border-bottom: none;
-    }
-
-    .hours-item .day {
-        font-weight: 600;
-    }
-
-    .hours-item .time {
-        background: rgba(255, 255, 255, 0.2);
-        padding: 0.25rem 0.6rem;
-        border-radius: 2rem;
-        font-weight: 700;
-        font-size: 0.75rem;
-    }
-
-    /* Maps */
-    .maps-wrapper {
-        position: relative;
-        border-radius: 0.4rem;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .maps-wrapper iframe {
-        width: 100% !important;
-        height: 150px !important;
-        display: block;
-    }
-
-    .maps-link {
-        display: inline-block;
-        margin-top: 0.75rem;
-        padding: 0.5rem 1rem;
-        background: rgba(255, 255, 255, 0.2);
-        color: white;
-        border-radius: 0.4rem;
-        font-weight: 600;
-        font-size: 0.85rem;
-        transition: all 0.3s ease;
-        text-decoration: none;
-    }
-
-    .maps-link:hover {
-        background: rgba(255, 255, 255, 0.3);
-        transform: translateY(-2px);
-    }
-
-    /* Social Links */
-    .social-links {
-        display: flex;
-        gap: 0.75rem;
-        margin-top: 0.75rem;
-    }
-
-    .social-links a {
-        width: 40px;
-        height: 40px;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.1rem;
-        transition: all 0.3s ease;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        color: white;
-    }
-
-    .social-links a:hover {
-        background: white;
-        color: var(--gold);
-        transform: translateY(-2px);
-        border-color: white;
-    }
-
-    .footer-bottom {
-        text-align: center;
-        padding-top: 1rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.15);
-        color: rgba(255, 255, 255, 0.8);
-        font-size: 0.85rem;
-    }
-
-    /* Back to Top Button */
-    #backToTopBtn {
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        width: 50px;
-        height: 50px;
-        background: linear-gradient(135deg, var(--gold) 0%, var(--honey) 100%);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        cursor: pointer;
-        z-index: 9999;
-        box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
-        transition: all 0.3s ease;
-        opacity: 0;
-        pointer-events: none;
-    }
-
-    #backToTopBtn.show {
-        opacity: 1;
-        pointer-events: auto;
-    }
-
-    #backToTopBtn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 18px rgba(212, 165, 116, 0.4);
-    }
-
-    @media (max-width: 768px) {
         .footer-container {
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            padding: 0 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
 
         .footer-section h3 {
-            font-size: 0.95rem;
+            color: #F5E6D3;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            font-weight: 700;
         }
 
         .footer-section p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .footer-section ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.6rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #F5E6D3;
+        }
+
+        /* Opening Hours */
+        .opening-hours {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 0.4rem;
+            padding: 0.75rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .hours-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
             font-size: 0.85rem;
         }
 
+        .hours-item:last-child {
+            border-bottom: none;
+        }
+
+        .hours-item .day {
+            font-weight: 600;
+        }
+
+        .hours-item .time {
+            background: rgba(212, 165, 116, 0.3);
+            padding: 0.25rem 0.6rem;
+            border-radius: 2rem;
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: #F5E6D3;
+        }
+
+        /* Maps */
+        .maps-wrapper {
+            position: relative;
+            border-radius: 0.4rem;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
         .maps-wrapper iframe {
-            height: 120px !important;
+            width: 100% !important;
+            height: 150px !important;
+            display: block;
         }
 
-        #backToTopBtn {
-            width: 45px;
-            height: 45px;
-            font-size: 1.2rem;
-            bottom: 1.5rem;
-            right: 1.5rem;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .footer-container {
-            grid-template-columns: 1fr;
-            gap: 1.25rem;
+        .maps-link {
+            display: inline-block;
+            margin-top: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: rgba(212, 165, 116, 0.3);
+            color: #F5E6D3;
+            border-radius: 0.4rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
         }
 
-        .maps-wrapper iframe {
-            height: 120px !important;
+        .maps-link:hover {
+            background: rgba(212, 165, 116, 0.5);
+            transform: translateY(-2px);
         }
 
-        #backToTopBtn {
+        /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .social-links a {
             width: 40px;
             height: 40px;
-            font-size: 1rem;
-            bottom: 1rem;
-            right: 1rem;
+            background: rgba(212, 165, 116, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
         }
-    }
-</style>
+
+        .social-links a:hover {
+            background: #F5E6D3;
+            color: #8B6F47;
+            transform: translateY(-2px);
+            border-color: #F5E6D3;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85rem;
+        }
+
+        /* Back to Top Button */
+        #backToTopBtn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #D4A574 0%, #8B6F47 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 4px 12px rgba(139, 111, 71, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #backToTopBtn.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #backToTopBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(139, 111, 71, 0.4);
+            background: linear-gradient(135deg, #8B6F47 0%, #6B4423 100%);
+        }
+
+        @media (max-width: 768px) {
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+                padding: 0 1rem;
+            }
+
+            .footer-section h3 {
+                font-size: 0.95rem;
+            }
+
+            .footer-section p {
+                font-size: 0.85rem;
+            }
+
+            .maps-wrapper iframe {
+                height: 120px !important;
+            }
+
+            #backToTopBtn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+
+            .maps-wrapper iframe {
+                height: 120px !important;
+            }
+
+            #backToTopBtn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
