@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2025 at 01:17 PM
+-- Generation Time: Nov 25, 2025 at 07:56 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -66,7 +66,7 @@ CREATE TABLE `articles` (
 
 INSERT INTO `articles` (`id`, `judul`, `deskripsi`, `isi`, `foto`, `created_by`, `created_at`, `updated_at`) VALUES
 (1, 'Cara Membuat Roti Tawar Lembut', 'Tips membuat roti tawar yang lembut dan empuk', '<p>Untuk membuat roti tawar yang lembut, Anda perlu:</p><ol><li>Gunakan tepung berkualitas tinggi</li><li>Jangan kurangi air</li><li>Fermentasi dengan waktu yang tepat</li><li>Panggang dengan suhu konsisten</li></ol>', '691c2e14eb463_1763454484.jpg', 1, '2025-11-17 14:00:35', '2025-11-18 08:28:04'),
-(2, 'Resep Croissant Paling Enak', 'Croissant dengan laminating yang sempurna', '<p>Croissant yang bagus perlu:</p><ol><li>Butter berkualitas premium</li><li>Laminating yang hati-hati</li><li>Fermentasi dingin (cold fermentation)</li><li>Oven dengan suhu tinggi</li></ol>', NULL, 1, '2025-11-17 14:00:35', '2025-11-17 14:00:35');
+(2, 'Resep Croissant Paling Enak', 'Croissant dengan laminating yang sempurna', '<p>Croissant yang bagus perlu:</p><ol><li>Butter berkualitas premium</li><li>Laminating yang hati-hati</li><li>Fermentasi dingin (cold fermentation)</li><li>Oven dengan suhu tinggi</li></ol>', '692522734513e_1764041331.jpg', 1, '2025-11-17 14:00:35', '2025-11-25 03:28:51');
 
 -- --------------------------------------------------------
 
@@ -130,34 +130,7 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `nama`, `email`, `password`, `no_hp`, `alamat`, `foto_profil`, `created_at`, `updated_at`) VALUES
-(1, 'Budi Santoso', 'budi@gmail.com', '$2y$10$eIxZaYVK3fhqgflTFGLF9.PYQV3c8A6L3w.t3oYhKbRDXQA8iLvVu', '082122334455', 'Jl. Merdeka No. 123, Jakarta', NULL, '2025-11-17 14:00:35', '2025-11-17 14:00:35'),
-(2, 'Siti Nurhaliza', 'siti@gmail.com', '$2y$10$eIxZaYVK3fhqgflTFGLF9.PYQV3c8A6L3w.t3oYhKbRDXQA8iLvVu', '083455667788', 'Jl. Sudirman No. 456, Depok', NULL, '2025-11-17 14:00:35', '2025-11-17 14:00:35'),
 (3, 'dim', 'dim@gmail.com', '$2y$10$9a4/P4.9XBrqwHNV9ZWEjOCPFmILqJnxkd9wNBSvuGYhypyzItNKG', '08123456789', '', '691c309f9bacf_1763455135.jpg', '2025-11-17 14:17:56', '2025-11-18 08:38:55');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `messages`
---
-
-CREATE TABLE `messages` (
-  `id` int(11) NOT NULL,
-  `from_user_id` int(11) NOT NULL,
-  `to_user_id` int(11) NOT NULL,
-  `pesan` text NOT NULL,
-  `receiver_type` enum('customer','admin') DEFAULT 'customer',
-  `dibaca` tinyint(1) DEFAULT 0,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `messages`
---
-
-INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `pesan`, `receiver_type`, `dibaca`, `created_at`) VALUES
-(14, 1, 1, 'Test message', 'admin', 1, '2025-11-18 04:59:38'),
-(27, 3, 1, 'yo', 'admin', 1, '2025-11-18 07:37:27'),
-(28, 3, 1, 'ppp', 'admin', 1, '2025-11-18 07:38:49');
 
 -- --------------------------------------------------------
 
@@ -230,7 +203,41 @@ INSERT INTO `notifications` (`id`, `customer_id`, `order_id`, `judul`, `pesan`, 
 (48, 3, 10, 'Status Pesanan Berubah', 'Status pesanan Anda sekarang: Siap Dikirim', 0, '2025-11-18 11:48:35'),
 (49, 3, 10, 'Pesanan Selesai', 'Anda telah mengkonfirmasi penerimaan barang.', 0, '2025-11-18 11:49:21'),
 (50, 3, 10, 'Status Pesanan Berubah', 'Status pesanan Anda sekarang: Siap Dikirim', 0, '2025-11-18 11:49:38'),
-(51, 3, 10, 'Status Pesanan Berubah', 'Status pesanan Anda sekarang: Selesai', 0, '2025-11-18 11:49:58');
+(51, 3, 10, 'Status Pesanan Berubah', 'Status pesanan Anda sekarang: Selesai', 0, '2025-11-18 11:49:58'),
+(52, 3, 10, 'Pesanan Selesai', 'Anda telah mengkonfirmasi penerimaan barang.', 0, '2025-11-18 12:19:44'),
+(53, 3, 11, 'Pesanan Berhasil Dibuat', 'Pesanan #ORD-20251118142157-6268 berhasil dibuat. Silakan upload bukti pembayaran.', 0, '2025-11-18 13:21:57'),
+(54, 3, 11, 'Bukti Pembayaran Terkirim', 'Bukti pembayaran Anda telah diterima. Admin akan verifikasi dalam waktu 1x24 jam.', 0, '2025-11-18 13:22:06'),
+(55, 3, 11, 'Status Pesanan Berubah', 'Status pesanan Anda sekarang: Selesai', 0, '2025-11-18 13:27:02'),
+(56, 3, 12, 'Pesanan Berhasil Dibuat', 'Pesanan #ORD-20251118144052-1987 berhasil dibuat. Silakan upload bukti pembayaran.', 0, '2025-11-18 13:40:52'),
+(57, 3, 12, 'Bukti Pembayaran Terkirim', 'Bukti pembayaran Anda telah diterima. Admin akan verifikasi dalam waktu 1x24 jam.', 0, '2025-11-18 13:41:00'),
+(58, 3, 12, 'Pembayaran Diterima', 'Pembayaran Anda telah diverifikasi. Pesanan akan segera dikemas.', 0, '2025-11-18 13:41:23'),
+(59, 3, 13, 'Pesanan Berhasil Dibuat', 'Pesanan #ORD-20251118144252-3825 berhasil dibuat. Silakan upload bukti pembayaran.', 0, '2025-11-18 13:42:52'),
+(60, 3, 13, 'Bukti Pembayaran Terkirim', 'Bukti pembayaran Anda telah diterima. Admin akan verifikasi dalam waktu 1x24 jam.', 0, '2025-11-18 13:43:02'),
+(61, 3, 13, 'Pesanan Dibatalkan', 'Pesanan Anda berhasil dibatalkan.', 0, '2025-11-18 13:43:33'),
+(66, 3, 15, 'Pesanan Berhasil Dibuat', 'Pesanan #ORD-20251125033825-7070 berhasil dibuat. Silakan upload bukti pembayaran.', 0, '2025-11-25 02:38:25'),
+(67, 3, 15, 'Bukti Pembayaran Terkirim', 'Bukti pembayaran Anda telah diterima. Admin akan verifikasi dalam waktu 1x24 jam.', 0, '2025-11-25 02:38:33'),
+(68, 3, 15, 'Status Pesanan Berubah', 'Status pesanan Anda sekarang: Menunggu Bukti Pembayaran', 0, '2025-11-25 02:39:27'),
+(69, 3, 15, 'Pesanan Dibatalkan', 'Pesanan Anda berhasil dibatalkan.', 0, '2025-11-25 02:49:12'),
+(70, 3, 16, 'Pesanan Berhasil Dibuat', 'Pesanan #ORD-20251125035007-3120 berhasil dibuat. Silakan upload bukti pembayaran.', 0, '2025-11-25 02:50:07'),
+(71, 3, 16, 'Bukti Pembayaran Terkirim', 'Bukti pembayaran Anda telah diterima. Admin akan verifikasi dalam waktu 1x24 jam.', 0, '2025-11-25 02:50:21'),
+(72, 3, 16, 'Status Pesanan Berubah', 'Status pesanan Anda sekarang: Pembayaran Diterima', 0, '2025-11-25 02:50:41'),
+(73, 3, 16, 'Status Pesanan Berubah', 'Status pesanan Anda sekarang: Siap Dikirim', 0, '2025-11-25 02:50:50'),
+(74, 3, 16, 'Status Pesanan Berubah', 'Status pesanan Anda sekarang: Selesai', 0, '2025-11-25 02:51:10'),
+(75, 3, 17, 'Pesanan Berhasil Dibuat', 'Pesanan #ORD-20251125055225-7973 berhasil dibuat. Silakan upload bukti pembayaran.', 0, '2025-11-25 04:52:25'),
+(76, 3, 17, 'Bukti Pembayaran Terkirim', 'Bukti pembayaran Anda telah diterima. Admin akan verifikasi dalam waktu 1x24 jam.', 0, '2025-11-25 04:52:34'),
+(77, 3, 17, 'Status Pesanan Berubah', 'Status pesanan Anda sekarang: Pembayaran Diterima', 0, '2025-11-25 04:53:07'),
+(78, 3, 17, 'Status Pesanan Berubah', 'Status pesanan Anda sekarang: Siap Dikirim', 0, '2025-11-25 04:53:28'),
+(79, 3, 17, 'Pesanan Selesai', 'Anda telah mengkonfirmasi penerimaan barang.', 0, '2025-11-25 04:53:49'),
+(80, 3, 18, 'Pesanan Berhasil Dibuat', 'Pesanan #ORD-20251125055840-4775 berhasil dibuat. Silakan upload bukti pembayaran.', 0, '2025-11-25 04:58:40'),
+(81, 3, 18, 'Bukti Pembayaran Terkirim', 'Bukti pembayaran Anda telah diterima. Admin akan verifikasi dalam waktu 1x24 jam.', 0, '2025-11-25 04:58:49'),
+(82, 3, 18, 'Pembayaran Diterima', 'Pembayaran Anda telah diverifikasi. Pesanan akan segera dikemas.', 0, '2025-11-25 04:59:03'),
+(83, 3, 18, 'Status Pesanan Berubah', 'Status pesanan Anda sekarang: Siap Dikirim', 0, '2025-11-25 04:59:11'),
+(84, 3, 18, 'Pesanan Selesai', 'Anda telah mengkonfirmasi penerimaan barang.', 0, '2025-11-25 04:59:26'),
+(85, 3, 19, 'Pesanan Berhasil Dibuat', 'Pesanan #ORD-20251125061011-6069 berhasil dibuat. Silakan upload bukti pembayaran.', 0, '2025-11-25 05:10:11'),
+(86, 3, 19, 'Bukti Pembayaran Terkirim', 'Bukti pembayaran Anda telah diterima. Admin akan verifikasi dalam waktu 1x24 jam.', 0, '2025-11-25 05:10:22'),
+(87, 3, 19, 'Pembayaran Diterima', 'Pembayaran Anda telah diverifikasi. Pesanan akan segera dikemas.', 0, '2025-11-25 05:11:17'),
+(88, 3, 19, 'Status Pesanan Berubah', 'Status pesanan Anda sekarang: Siap Dikirim', 0, '2025-11-25 05:11:21'),
+(89, 3, 19, 'Pesanan Selesai', 'Anda telah mengkonfirmasi penerimaan barang.', 0, '2025-11-25 05:11:42');
 
 -- --------------------------------------------------------
 
@@ -267,7 +274,15 @@ INSERT INTO `orders` (`id`, `customer_id`, `no_pesanan`, `total_harga`, `ongkir`
 (7, 3, 'ORD-20251118095917-9781', 15000.00, 10000.00, 25000.00, 'dalam kota', 'jl. ketintang', 'ditolak', NULL, '2025-11-18 08:59:17', '2025-11-18 10:00:58'),
 (8, 3, 'ORD-20251118110207-7716', 25000.00, 10000.00, 35000.00, 'dalam kota', 'jemur sari', 'selesai', NULL, '2025-11-18 10:02:07', '2025-11-18 10:04:29'),
 (9, 3, 'ORD-20251118112723-5958', 15000.00, 10000.00, 25000.00, 'dalam kota', 'jl. ketintang', 'ditolak', NULL, '2025-11-18 10:27:23', '2025-11-18 10:28:13'),
-(10, 3, 'ORD-20251118124122-9292', 45000.00, 10000.00, 55000.00, 'dalam kota', 'jl. ketintang', 'selesai', NULL, '2025-11-18 11:41:22', '2025-11-18 11:49:58');
+(10, 3, 'ORD-20251118124122-9292', 45000.00, 10000.00, 55000.00, 'dalam kota', 'jl. ketintang', 'selesai', NULL, '2025-11-18 11:41:22', '2025-11-18 11:49:58'),
+(11, 3, 'ORD-20251118142157-6268', 15000.00, 20000.00, 35000.00, 'Luar kota', 'jl. ketintang', 'selesai', NULL, '2025-11-18 13:21:57', '2025-11-18 13:27:02'),
+(12, 3, 'ORD-20251118144052-1987', 15000.00, 10000.00, 25000.00, 'dalam kota', 'jl. ketintang', 'diterima', NULL, '2025-11-18 13:40:52', '2025-11-18 13:41:23'),
+(13, 3, 'ORD-20251118144252-3825', 15000.00, 10000.00, 25000.00, 'dalam kota', 'j', 'ditolak', NULL, '2025-11-18 13:42:52', '2025-11-18 13:43:33'),
+(15, 3, 'ORD-20251125033825-7070', 15000.00, 10000.00, 25000.00, 'dalam kota', 'jl. ketintang', 'ditolak', NULL, '2025-11-25 02:38:25', '2025-11-25 02:49:12'),
+(16, 3, 'ORD-20251125035007-3120', 10000.00, 10000.00, 20000.00, 'dalam kota', 'jl. ketintang', 'selesai', NULL, '2025-11-25 02:50:07', '2025-11-25 02:51:10'),
+(17, 3, 'ORD-20251125055225-7973', 10000.00, 12000.00, 22000.00, 'Asemrowo', 'tes', 'selesai', NULL, '2025-11-25 04:52:25', '2025-11-25 04:53:49'),
+(18, 3, 'ORD-20251125055840-4775', 15000.00, 15000.00, 30000.00, 'benowo', 'jl. ketintang', 'selesai', NULL, '2025-11-25 04:58:40', '2025-11-25 04:59:26'),
+(19, 3, 'ORD-20251125061011-6069', 15000.00, 12000.00, 27000.00, 'Asemrowo', 'tes', 'selesai', NULL, '2025-11-25 05:10:11', '2025-11-25 05:11:42');
 
 -- --------------------------------------------------------
 
@@ -299,7 +314,15 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `jumlah`, `harga`, `c
 (8, 8, 1, 1, 15000.00, '2025-11-18 10:02:07'),
 (9, 8, 17, 1, 10000.00, '2025-11-18 10:02:07'),
 (10, 9, 1, 1, 15000.00, '2025-11-18 10:27:23'),
-(11, 10, 1, 3, 15000.00, '2025-11-18 11:41:22');
+(11, 10, 1, 3, 15000.00, '2025-11-18 11:41:22'),
+(12, 11, 1, 1, 15000.00, '2025-11-18 13:21:57'),
+(13, 12, 1, 1, 15000.00, '2025-11-18 13:40:52'),
+(14, 13, 1, 1, 15000.00, '2025-11-18 13:42:52'),
+(16, 15, 1, 1, 15000.00, '2025-11-25 02:38:25'),
+(17, 16, 17, 1, 10000.00, '2025-11-25 02:50:07'),
+(18, 17, 17, 1, 10000.00, '2025-11-25 04:52:25'),
+(19, 18, 1, 1, 15000.00, '2025-11-25 04:58:40'),
+(20, 19, 1, 1, 15000.00, '2025-11-25 05:10:11');
 
 -- --------------------------------------------------------
 
@@ -327,7 +350,15 @@ INSERT INTO `payment_proofs` (`id`, `order_id`, `bukti_file`, `verified_at`, `ve
 (4, 5, '691c1b371683a_1763449655.jpg', '2025-11-18 07:32:11', 1, '2025-11-18 07:07:35'),
 (5, 7, '691c356de0d45_1763456365.jpg', '2025-11-18 10:00:39', 1, '2025-11-18 08:59:25'),
 (6, 8, '691c442dac790_1763460141.jpg', NULL, NULL, '2025-11-18 10:02:21'),
-(7, 10, '691c5b6de2500_1763466093.jpg', '2025-11-18 11:45:58', 1, '2025-11-18 11:41:33');
+(7, 10, '691c5b6de2500_1763466093.jpg', '2025-11-18 11:45:58', 1, '2025-11-18 11:41:33'),
+(8, 11, '691c72fe92546_1763472126.jpg', NULL, NULL, '2025-11-18 13:22:06'),
+(9, 12, '691c776c9a4a3_1763473260.png', '2025-11-18 13:41:23', 1, '2025-11-18 13:41:00'),
+(10, 13, '691c77e6c7830_1763473382.jpg', NULL, NULL, '2025-11-18 13:43:02'),
+(12, 15, '692516a968604_1764038313.jpg', NULL, NULL, '2025-11-25 02:38:33'),
+(13, 16, '6925196d796b2_1764039021.jpg', NULL, NULL, '2025-11-25 02:50:21'),
+(14, 17, '692536121004f_1764046354.jpg', NULL, NULL, '2025-11-25 04:52:34'),
+(15, 18, '69253789d2d55_1764046729.jpg', '2025-11-25 04:59:03', 1, '2025-11-25 04:58:49'),
+(16, 19, '69253a3e546de_1764047422.jpg', '2025-11-25 05:11:17', 1, '2025-11-25 05:10:22');
 
 -- --------------------------------------------------------
 
@@ -352,9 +383,9 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `category_id`, `nama`, `deskripsi`, `harga`, `stok`, `foto_utama`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Roti Tawar Putih', 'Roti tawar putih klasik, lembut dan empuk', 15000.00, 43, '691c06a0b5b4c.jpg', '2025-11-17 14:00:35', '2025-11-18 11:41:22'),
+(1, 1, 'Roti Tawar Putih', 'Roti tawar putih klasik, lembut dan empuk', 15000.00, 39, '691c06a0b5b4c.jpg', '2025-11-17 14:00:35', '2025-11-25 05:10:11'),
 (2, 1, 'Roti Tawar Coklat', 'Roti tawar coklat dengan aroma coklat yang wangi', 18000.00, 43, '691c2035ba3c1_1763450933.jpg', '2025-11-17 14:00:35', '2025-11-18 07:28:53'),
-(17, 1, 'Roti Tawar manis', 'roti tawar manis dan lezat', 10000.00, 39, '691c14acc97ef_1763447980.jpg', '2025-11-18 06:39:40', '2025-11-18 10:02:07');
+(17, 1, 'Roti Tawar manis', 'roti tawar manis dan lezat', 10000.00, 36, '691c14acc97ef_1763447980.jpg', '2025-11-18 06:39:40', '2025-11-25 04:52:25');
 
 -- --------------------------------------------------------
 
@@ -385,6 +416,14 @@ CREATE TABLE `reviews` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `product_id`, `customer_id`, `order_id`, `rating`, `ulasan`, `created_at`) VALUES
+(1, 17, 3, 8, 4, 'rasanya enak', '2025-11-25 04:55:54'),
+(2, 1, 3, 1, 5, 'produk sangat unggul', '2025-11-25 04:59:50');
+
 -- --------------------------------------------------------
 
 --
@@ -404,8 +443,33 @@ CREATE TABLE `shipping_costs` (
 --
 
 INSERT INTO `shipping_costs` (`id`, `wilayah`, `ongkir`, `created_at`, `updated_at`) VALUES
-(16, 'dalam kota', 10000.00, '2025-11-17 16:40:01', '2025-11-17 16:40:09'),
-(17, 'Luar kota', 20000.00, '2025-11-18 07:34:44', '2025-11-18 07:34:44');
+(18, 'Gayungan', 10000.00, '2025-11-25 02:56:47', '2025-11-25 02:56:47'),
+(19, 'Jambangan', 10000.00, '2025-11-25 02:57:10', '2025-11-25 02:57:10'),
+(20, 'Wonokromo', 10000.00, '2025-11-25 02:57:22', '2025-11-25 02:57:22'),
+(21, 'Karang Pilang', 10000.00, '2025-11-25 02:57:35', '2025-11-25 02:57:35'),
+(22, 'Dukuh Pakis', 10000.00, '2025-11-25 02:57:47', '2025-11-25 02:57:47'),
+(23, 'Wiyung', 10000.00, '2025-11-25 02:58:00', '2025-11-25 02:58:00'),
+(24, 'Tenggilis Mejoyo', 12000.00, '2025-11-25 02:58:16', '2025-11-25 02:58:16'),
+(25, 'Rungkut', 12000.00, '2025-11-25 02:58:30', '2025-11-25 02:58:30'),
+(26, 'Gunung Anyar', 12000.00, '2025-11-25 02:58:42', '2025-11-25 02:58:42'),
+(27, 'Sukolilo', 12000.00, '2025-11-25 02:59:05', '2025-11-25 02:59:05'),
+(28, 'Sukomanunggal', 12000.00, '2025-11-25 02:59:23', '2025-11-25 02:59:23'),
+(29, 'Tandes', 12000.00, '2025-11-25 02:59:39', '2025-11-25 02:59:39'),
+(30, 'Asemrowo', 12000.00, '2025-11-25 03:00:15', '2025-11-25 03:00:15'),
+(31, 'Genteng', 12000.00, '2025-11-25 03:00:39', '2025-11-25 03:00:39'),
+(32, 'Gubeng', 12000.00, '2025-11-25 03:00:58', '2025-11-25 03:00:58'),
+(33, 'Tegalsari', 12000.00, '2025-11-25 03:01:13', '2025-11-25 03:01:13'),
+(34, 'Simokerto', 12000.00, '2025-11-25 03:01:30', '2025-11-25 03:01:30'),
+(35, 'Tambaksari', 12000.00, '2025-11-25 03:01:46', '2025-11-25 03:01:46'),
+(36, 'Mulyorejo', 15000.00, '2025-11-25 03:02:02', '2025-11-25 03:02:40'),
+(37, 'kenjeran', 15000.00, '2025-11-25 03:03:06', '2025-11-25 03:03:06'),
+(38, 'semampir', 15000.00, '2025-11-25 03:03:28', '2025-11-25 03:03:28'),
+(39, 'pabean', 15000.00, '2025-11-25 03:03:49', '2025-11-25 03:03:49'),
+(40, 'krembangan', 15000.00, '2025-11-25 03:04:03', '2025-11-25 03:04:03'),
+(41, 'benowo', 15000.00, '2025-11-25 03:04:16', '2025-11-25 03:04:16'),
+(42, 'pakal', 15000.00, '2025-11-25 03:04:36', '2025-11-25 03:04:36'),
+(43, 'lakarsantri', 15000.00, '2025-11-25 03:04:51', '2025-11-25 03:04:51'),
+(44, 'sambikerep', 15000.00, '2025-11-25 03:05:07', '2025-11-25 03:05:07');
 
 --
 -- Indexes for dumped tables
@@ -445,15 +509,6 @@ ALTER TABLE `categories`
 ALTER TABLE `customers`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
-
---
--- Indexes for table `messages`
---
-ALTER TABLE `messages`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_messages_from` (`from_user_id`),
-  ADD KEY `idx_messages_to` (`to_user_id`),
-  ADD KEY `idx_messages_receiver_type` (`receiver_type`);
 
 --
 -- Indexes for table `notifications`
@@ -538,7 +593,7 @@ ALTER TABLE `articles`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -553,34 +608,28 @@ ALTER TABLE `customers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `messages`
---
-ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
-
---
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `payment_proofs`
 --
 ALTER TABLE `payment_proofs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -598,13 +647,13 @@ ALTER TABLE `product_photos`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `shipping_costs`
 --
 ALTER TABLE `shipping_costs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- Constraints for dumped tables
