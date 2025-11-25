@@ -49,7 +49,7 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY nama LIMIT 5")->fe
         /* Hero Section with Background */
         .hero-section {
             position: relative;
-            background: linear-gradient(135deg, rgba(139, 69, 19, 0.95) 0%, rgba(101, 67, 33, 0.95) 100%),
+            background: linear-gradient(135deg, rgba(131, 70, 27, 0.95) 0%, rgba(101, 67, 33, 0.95) 100%),
                         url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23f5deb3" width="1200" height="600"/><circle cx="200" cy="150" r="80" fill="%23daa520" opacity="0.3"/><circle cx="800" cy="400" r="100" fill="%23cd853f" opacity="0.2"/><path d="M 0 300 Q 300 250 600 300 T 1200 300 L 1200 600 L 0 600 Z" fill="%23f4a460" opacity="0.2"/></svg>');
             background-size: cover;
             background-position: center;
@@ -478,7 +478,7 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY nama LIMIT 5")->fe
         .article-image {
             width: 100%;
             height: 220px;
-            background: linear-gradient(135deg, #f5deb3 0%, #daa520 100%);
+            background: linear-gradient(135deg, #f5deb3 0%, #b8953dff 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -642,7 +642,7 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY nama LIMIT 5")->fe
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="hero-content">
-            <div class="hero-badge">✨ SEJAK 2020</div>
+            <div class="hero-badge">✨ SEJAK 2025</div>
             <h1>Brew Bakery</h1>
             <p>Roti dan Pastry Premium Dibuat Fresh Setiap Hari dengan Bahan Berkualitas Tinggi</p>
             <div class="hero-buttons">
@@ -668,7 +668,7 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY nama LIMIT 5")->fe
                 <span class="stat-label">Bahan Fresh</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number">24/7</span>
+                <span class="stat-number">8/7</span>
                 <span class="stat-label">Layanan Order</span>
             </div>
         </div>
