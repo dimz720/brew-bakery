@@ -61,6 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 $success = 'Bukti pembayaran berhasil diupload! Admin akan memverifikasi dalam 1x24 jam.';
                 $payment_proof = $conn->query("SELECT * FROM payment_proofs WHERE order_id = $order_id")->fetch_assoc();
+                
+                // ← TAMBAHAN: Auto-redirect setelah 2 detik
+                header("Refresh: 2; url=" . CUSTOMER_URL . "orders/detail.php?id=" . $order_id);
             } else {
                 $error = 'Gagal mengupload bukti pembayaran!';
             }
@@ -235,7 +238,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endif; ?>
 
                 <?php if ($success): ?>
-                    <div class="alert alert-success"><?php echo $success; ?></div>
+                    <div class="alert alert-success">
+                        <?php echo $success; ?>
+                        <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+                            <a href="<?php echo CUSTOMER_URL; ?>orders/detail.php?id=<?php echo $order_id; ?>" class="btn btn-primary">
+                                📋 Lihat Detail Order
+                            </a>
+                            <a href="<?php echo CUSTOMER_URL; ?>orders/tracking.php?id=<?php echo $order_id; ?>" class="btn btn-primary" style="background-color: var(--secondary);">
+                                📍 Tracking Pesanan
+                            </a>
+                        </div>
+                    </div>
                 <?php endif; ?>
 
                 <div class="order-info">
@@ -336,21 +349,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         function previewFile(input) {
-            const preview = document.getElementById('preview');
-            preview.innerHTML = '';
+            const preview = document.getElementById('preview');   reader.readAsDataURL(input.files[0]);
+            preview.innerHTML = '';            }
             
-            if (input.files && input.files[0]) {
+            if (input.files && input.files[0]) {cript>
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    preview.appendChild(img);
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-    </script>
+                reader.onload = function(e) {    <?php include __DIR__ . '/../includes/footer.php'; ?>
 
-    <?php include __DIR__ . '/../includes/footer.php'; ?>
-</body>
+
+
+
+
+
+
+
+
+
+
+
+
+</html></body>    <?php include __DIR__ . '/../includes/footer.php'; ?>    </script>        }            }                reader.readAsDataURL(input.files[0]);                };                    preview.appendChild(img);                    img.src = e.target.result;                    const img = document.createElement('img');</body>
 </html>

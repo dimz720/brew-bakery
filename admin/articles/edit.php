@@ -74,19 +74,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css">
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
     <style>
-        /* Add your custom styles here */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
             margin: 0;
             padding: 0;
         }
-
+        
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
         .admin-content {
-            flex: 1;
             padding: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
+            flex: 1;
         }
 
         .form-card {
@@ -210,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
    
     
-    <div style="display: flex;">
+    <div style="display: flex; min-height: 100vh;">
         <?php include __DIR__ . '/../includes/sidebar.php'; ?>
         
         <div class="admin-content">

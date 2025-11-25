@@ -15,14 +15,30 @@ $customer_email = $customer['email'] ?? '';
 $customer_no_hp = $customer['no_hp'] ?? '';
 $customer_alamat = $customer['alamat'] ?? '';
 
-// Get cart items
-$cart_items = getCartItems($customer_id);
+// ← TAMBAHAN: Handle direct checkout dari product detail
+$direct_checkout = isset($_GET['direct']) && $_GET['direct'] === '1';
+$temp_cart_item = $_SESSION['temp_cart'] ?? null;
 
-if (count($cart_items) === 0) {
-    redirect(CUSTOMER_URL . 'cart.php');
+if ($direct_checkout && !$temp_cart_item) {
+    redirect(CUSTOMER_URL . 'shop.php');
 }
 
-$subtotal = getCartTotal($customer_id);
+// Get cart items
+if ($direct_checkout && $temp_cart_item) {
+    // Gunakan temporary cart item
+    $cart_items = [$temp_cart_item];
+    $subtotal = $temp_cart_item['harga'] * $temp_cart_item['jumlah'];
+} else {
+    // Gunakan cart normal
+    $cart_items = getCartItems($customer_id);
+    
+    if (count($cart_items) === 0) {
+        redirect(CUSTOMER_URL . 'cart.php');
+    }
+    
+    $subtotal = getCartTotal($customer_id);
+}
+
 $ongkir = 0;
 $total = $subtotal;
 
@@ -98,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $stmt->bind_param("iiii", $order_id, $item['product_id'], $item['jumlah'], $item['harga']);
                     $stmt->execute();
                     
-                    // TAMBAHAN: Kurangi stok produk
+                    // Kurangi stok produk
                     $update_stock_query = "UPDATE products SET stok = stok - ? WHERE id = ?";
                     $stock_stmt = $conn->prepare($update_stock_query);
                     $stock_stmt->bind_param("ii", $item['jumlah'], $item['product_id']);
@@ -106,16 +122,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 
                 // Clear cart
-                $delete_cart_query = "DELETE FROM carts WHERE customer_id = ?";
-                $stmt = $conn->prepare($delete_cart_query);
-                $stmt->bind_param("i", $customer_id);
-                $stmt->execute();
+                if (!$direct_checkout) {
+                    // Hanya clear cart database jika bukan direct checkout
+                    $delete_cart_query = "DELETE FROM carts WHERE customer_id = ?";
+                    $stmt = $conn->prepare($delete_cart_query);
+                    $stmt->bind_param("i", $customer_id);
+                    $stmt->execute();
+                }
+                
+                // ← TAMBAHAN: Clear temp cart dari session
+                unset($_SESSION['temp_cart']);
                 
                 // Create notification
                 createNotification($customer_id, $order_id, 'Pesanan Berhasil Dibuat', 
                     'Pesanan #' . $no_pesanan . ' berhasil dibuat. Silakan upload bukti pembayaran.');
                 
-                // ← PENTING: Redirect ke payment upload
                 error_log("Checkout success - redirecting to payment upload. Order ID: $order_id");
                 redirect(CUSTOMER_URL . 'payment-upload.php?order_id=' . $order_id);
             } else {
@@ -549,7 +570,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="form-group">
                                 <label for="wilayah">Wilayah Pengiriman *</label>
                                 <select id="wilayah" name="wilayah" required onchange="updateShippingCost()">
-                                    <option value="">-- Pilih Wilayah --</option>
+                                    <option value="">-- Pilih Kecamatan --</option>
                                     <?php foreach ($shipping_costs as $cost): ?>
                                     <option value="<?php echo htmlspecialchars($cost['wilayah']); ?>" data-cost="<?php echo $cost['ongkir']; ?>">
                                         <?php echo htmlspecialchars($cost['wilayah']); ?> (Rp <?php echo number_format($cost['ongkir'], 0, ',', '.'); ?>)
@@ -817,39 +838,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 button.classList.remove('copied');
             }, 2000);
         }
-// Fungsi untuk membuka modal QRIS
-function openQrisModal(imageSrc) {
-    const modal = document.getElementById('qrisModal');
-    const modalImg = document.getElementById('qrisModalImage');
-    
-    modal.style.display = 'block';
-    modalImg.src = imageSrc;
-    
-    // Prevent body scroll when modal is open
-    document.body.style.overflow = 'hidden';
-}
 
-// Fungsi untuk menutup modal QRIS
-function closeQrisModal(event) {
-    const modal = document.getElementById('qrisModal');
-    
-    // Close jika klik di luar gambar atau tombol close
-    if (!event || event.target === modal || event.target.className === 'qris-close') {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-}
+        // Fungsi untuk membuka modal QRIS
+        function openQrisModal(imageSrc) {
+            const modal = document.getElementById('qrisModal');
+            const modalImg = document.getElementById('qrisModalImage');
+            
+            modal.style.display = 'block';
+            modalImg.src = imageSrc;
+            
+            // Prevent body scroll when modal is open
+            document.body.style.overflow = 'hidden';
+        }
 
-// Close modal dengan tombol ESC
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        closeQrisModal();
-    }
-});
+        // Fungsi untuk menutup modal QRIS
+        function closeQrisModal(event) {
+            const modal = document.getElementById('qrisModal');
+            
+            // Close jika klik di luar gambar atau tombol close
+            if (!event || event.target === modal || event.target.className === 'qris-close') {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
 
+        // Close modal dengan tombol ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modal = document.getElementById('qrisModal');
+                if (modal && modal.style.display === 'block') {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
     </script>
     
-
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 </body>
 </html>

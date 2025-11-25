@@ -206,7 +206,7 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
                     <input type="hidden" name="action" value="add">
 
                     <div class="form-group">
-                        <label for="wilayah">Nama Wilayah/Kota *</label>
+                        <label for="wilayah">Nama Wilayah/Kecamatan </label>
                         <input type="text" id="wilayah" name="wilayah" required placeholder="Contoh: dalam kota,dll">
                     </div>
 

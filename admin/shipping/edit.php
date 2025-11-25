@@ -182,7 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <form method="POST" action="">
                     <div class="form-group">
-                        <label for="wilayah">Nama Wilayah/Kota *</label>
+                        <label for="wilayah">Nama Wilayah/kecamatan *</label>
                         <input 
                             type="text" 
                             id="wilayah" 

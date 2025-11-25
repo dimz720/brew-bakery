@@ -118,6 +118,16 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
     <title>Edit Produk - Brew Bakery Admin</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css">
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
         .admin-content {
             padding: 2rem;
             flex: 1;
@@ -138,7 +148,7 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
 <body>
     
     
-    <div style="display: flex;">
+    <div style="display: flex; min-height: 100vh;">
         <?php include __DIR__ . '/../includes/sidebar.php'; ?>
         
         <div class="admin-content">
@@ -211,19 +221,7 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
                             <div id="mainImagePreview" class="image-preview"></div>
                         </div>
 
-                        <div class="form-group">
-                            <label>Foto Tambahan yang Ada</label>
-                            <?php if (count($photos) > 0): ?>
-                            <div class="image-preview">
-                                <?php foreach ($photos as $photo): ?>
-                                <div class="preview-item" style="position: relative;">
-                                    <img src="<?php echo PRODUCT_IMG_DIR . $photo['foto']; ?>" alt="">
-                                    <a href="?id=<?php echo $product_id; ?>&delete_photo=<?php echo $photo['id']; ?>" style="position: absolute; top: 5px; right: 5px; background-color: #dc3545; color: white; padding: 0.25rem 0.5rem; border-radius: 0.2rem; font-size: 0.75rem; text-decoration: none;" onclick="return confirm('Hapus foto ini?')">Hapus</a>
-                                </div>
-                                <?php endforeach; ?>
-                            </div>
-                            <?php endif; ?>
-                        </div>
+                     
 
                         <div class="form-group">
                             <label for="photos">Tambah Foto Baru</label>

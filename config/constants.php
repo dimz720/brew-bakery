@@ -34,9 +34,12 @@ define('ORDER_STATUS', [
     'selesai' => 'Selesai'
 ]);
 
-define('COLOR_PRIMARY', '#8B6F47');
-define('COLOR_SECONDARY', '#D4A574');
-define('COLOR_ACCENT', '#F5E6D3');
-define('COLOR_DARK', '#5C4A35');
-define('COLOR_LIGHT', '#FDF7F1');
+// ← PERBAIKAN: Bright & Warm Bakery Palette - Fresh, Yummy, Premium
+define('COLOR_PRIMARY', '#F4E4C1');           // Vanilla Cream (Utama - Cerah & Lembut)
+define('COLOR_SECONDARY', '#E8D4B8');         // Soft Butter (Secondary - Hangat)
+define('COLOR_ACCENT', '#6e685fff');            // Milk White Premium (Background)
+define('COLOR_GOLD', '#D4A574');              // Caramel Gold (Accent Premium)
+define('COLOR_HONEY', '#C9915D');             // Honey Brown (Dark Accent)
+define('COLOR_DARK', '#2D2D2D');              // Dark Text (Kontras)
+define('COLOR_LIGHT', '#FFFBF7');             // Very Light Cream (Light BG)
 ?>

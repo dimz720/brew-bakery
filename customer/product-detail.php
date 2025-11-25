@@ -47,6 +47,7 @@ $quantity = 1;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
+    $action = isset($_POST['action']) ? sanitize($_POST['action']) : 'add_cart';
     
     if ($quantity < 1) {
         $quantity = 1;
@@ -55,30 +56,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($quantity > $product['stok']) {
         $error = 'Jumlah melebihi stok yang tersedia!';
     } else {
-        // Check if product already in cart
-        $check_query = "SELECT id FROM carts WHERE customer_id = ? AND product_id = ?";
-        $stmt = $conn->prepare($check_query);
-        $stmt->bind_param("ii", $customer_id, $product_id);
-        $stmt->execute();
-        $existing = $stmt->get_result()->fetch_assoc();
-        
-        if ($existing) {
-            // Update quantity
-            $update_query = "UPDATE carts SET jumlah = jumlah + ? WHERE customer_id = ? AND product_id = ?";
-            $stmt = $conn->prepare($update_query);
-            $stmt->bind_param("iii", $quantity, $customer_id, $product_id);
+        if ($action === 'buy_now') {
+            // ← TAMBAHAN: Checkout langsung dengan temporary cart
+            $_SESSION['temp_cart'] = [
+                'product_id' => $product_id,
+                'jumlah' => $quantity,
+                'nama' => $product['nama'],
+                'harga' => $product['harga'],
+                'foto_utama' => $product['foto_utama']
+            ];
+            redirect(CUSTOMER_URL . 'checkout.php?direct=1');
         } else {
-            // Insert new cart item
-            $insert_query = "INSERT INTO carts (customer_id, product_id, jumlah) VALUES (?, ?, ?)";
-            $stmt = $conn->prepare($insert_query);
-            $stmt->bind_param("iii", $customer_id, $product_id, $quantity);
-        }
-        
-        if ($stmt->execute()) {
-            $success = 'Produk berhasil ditambahkan ke keranjang!';
-            $quantity = 1;
-        } else {
-            $error = 'Gagal menambahkan ke keranjang!';
+            // Add to cart normally
+            $check_query = "SELECT id FROM carts WHERE customer_id = ? AND product_id = ?";
+            $stmt = $conn->prepare($check_query);
+            $stmt->bind_param("ii", $customer_id, $product_id);
+            $stmt->execute();
+            $existing = $stmt->get_result()->fetch_assoc();
+            
+            if ($existing) {
+                // Update quantity
+                $update_query = "UPDATE carts SET jumlah = jumlah + ? WHERE customer_id = ? AND product_id = ?";
+                $stmt = $conn->prepare($update_query);
+                $stmt->bind_param("iii", $quantity, $customer_id, $product_id);
+            } else {
+                // Insert new cart item
+                $insert_query = "INSERT INTO carts (customer_id, product_id, jumlah) VALUES (?, ?, ?)";
+                $stmt = $conn->prepare($insert_query);
+                $stmt->bind_param("iii", $customer_id, $product_id, $quantity);
+            }
+            
+            if ($stmt->execute()) {
+                $success = 'Produk berhasil ditambahkan ke keranjang!';
+                $quantity = 1;
+            } else {
+                $error = 'Gagal menambahkan ke keranjang!';
+            }
         }
     }
 }
@@ -241,6 +254,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-color: #ccc;
             cursor: not-allowed;
         }
+        
+        .btn-buy-now {
+            flex: 1;
+            min-width: 150px;
+            padding: 1rem;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 0.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        .btn-buy-now:hover {
+            background-color: #ee5a52;
+        }
+        .btn-buy-now:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
         .description {
             border-top: 1px solid #eee;
             padding-top: 2rem;
@@ -379,8 +413,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <input type="number" id="quantity" name="quantity" value="1" min="1" max="<?php echo $product['stok']; ?>">
                                     <button type="button" onclick="increaseQty()">+</button>
                                 </div>
-                                <button type="submit" class="btn-cart-add" <?php echo $product['stok'] <= 0 ? 'disabled' : ''; ?>>
+                                <button type="submit" name="action" value="add_cart" class="btn-cart-add" <?php echo $product['stok'] <= 0 ? 'disabled' : ''; ?>>
                                     🛒 Tambah ke Keranjang
+                                </button>
+                                <button type="submit" name="action" value="buy_now" class="btn-buy-now" <?php echo $product['stok'] <= 0 ? 'disabled' : ''; ?>>
+                                    ⚡ Beli Langsung
                                 </button>
                             </div>
                         </form>
@@ -436,6 +473,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     </script>
 
-    <?php include __DIR__ . '/../includes/footer.php'; ?>
-</body>
-</html>
+
+
+</body>    <?php include __DIR__ . '/../includes/footer.php'; ?></html>

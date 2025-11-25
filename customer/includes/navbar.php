@@ -16,7 +16,21 @@ $cart_count = count($cart_items);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brew Bakery</title>
     <style>
-      
+        :root {
+            /* ← PERBAIKAN: Bright & Warm Bakery Colors */
+            --primary: #F4E4C1;              /* Vanilla Cream */
+            --primary-light: #E8D4B8;        /* Lighter Vanilla - untuk navbar */
+            --secondary: #E8D4B8;            /* Soft Butter */
+            --accent: #FFF9F0;               /* Milk White */
+            --gold: #D4A574;                 /* Caramel Gold */
+            --honey: #C9915D;                /* Honey Brown */
+            --text-dark: #2D2D2D;            /* Dark Text */
+            --text-light: #FFFFFF;           /* White Text */
+            --bg-light: #FFFBF7;             /* Light Cream */
+            --border: #E6CEB3;               /* Light Border */
+        }
+
+        /* RESET */
         * {
             margin: 0;
             padding: 0;
@@ -24,78 +38,89 @@ $cart_count = count($cart_items);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        /* NAVBAR */
         .navbar {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            padding: 0.8rem 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, #D4A574 0%, #C9915D 100%);
+            color: var(--text-dark);
+            padding: 1rem 0;
+            box-shadow: 0 4px 15px rgba(201, 145, 93, 0.25);
             position: sticky;
             top: 0;
             z-index: 1000;
+            border-bottom: 3px solid #B8860B;
         }
 
         .navbar-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 1.5rem;
+            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
+        /* Brand */
         .navbar-brand {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             font-size: 1.5rem;
             font-weight: 700;
             color: white;
             text-decoration: none;
+            transition: all 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
 
-        .navbar-brand img {
-            height: 40px;
-            width: auto;
+        .navbar-brand:hover {
+            transform: translateY(-2px);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
         }
 
+        /* Nav list */
         .navbar-nav {
             display: flex;
-            gap: 1.5rem;
+            gap: 0.5rem;
             align-items: center;
             list-style: none;
         }
 
+        /* Link */
         .nav-link {
             color: white;
             text-decoration: none;
             font-weight: 500;
-            padding: 0.5rem 0.8rem;
-            border-radius: 4px;
+            padding: 0.75rem 1.2rem;
+            border-radius: 0.5rem;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 0.3rem;
+            gap: 0.5rem;
+            position: relative;
         }
 
         .nav-link:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
         }
 
+        /* Badge */
         .badge {
             position: absolute;
             top: -8px;
             right: -8px;
-            background-color: var(--danger);
-            color: white;
-            padding: 0.2rem 0.4rem;
+            background-color: #FFC107;
+            color: #2D2D2D;
+            padding: 0.2rem 0.5rem;
             border-radius: 50%;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: bold;
-            min-width: 18px;
+            min-width: 20px;
             text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
         }
 
+        /* Profile Dropdown */
         .nav-item {
             position: relative;
         }
@@ -108,15 +133,17 @@ $cart_count = count($cart_items);
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 0.5rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            color: white;
+            padding: 0.75rem 1.2rem;
         }
 
         .dropdown-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
         }
 
         .dropdown-menu {
@@ -124,15 +151,17 @@ $cart_count = count($cart_items);
             top: 100%;
             right: 0;
             background: white;
-            min-width: 200px;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            padding: 0.5rem 0;
+            min-width: 220px;
+            border-radius: 0.75rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            padding: 0.75rem 0;
             opacity: 0;
             visibility: hidden;
             transform: translateY(10px);
             transition: all 0.3s ease;
             z-index: 1001;
+            margin-top: 0.5rem;
+            border: 1px solid #E6CEB3;
         }
 
         .dropdown:hover .dropdown-menu {
@@ -144,42 +173,49 @@ $cart_count = count($cart_items);
         .dropdown-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1rem;
-            color: var(--dark);
+            gap: 0.75rem;
+            padding: 0.9rem 1.5rem;
+            color: #2D2D2D;
             text-decoration: none;
             transition: all 0.2s ease;
         }
 
         .dropdown-item:hover {
-            background-color: #f8f9fa;
-            color: var(--primary);
+            background-color: #FFF9F0;
+            color: #C9915D;
+            padding-left: 2rem;
         }
 
         .dropdown-divider {
             height: 1px;
-            background-color: #e9ecef;
+            background-color: #E6CEB3;
             margin: 0.5rem 0;
         }
 
+        /* Hamburger */
         .hamburger {
             display: none;
             flex-direction: column;
             cursor: pointer;
-            gap: 4px;
+            gap: 5px;
         }
 
         .hamburger span {
             width: 25px;
-            height: 3px;
+            height: 2.5px;
             background-color: white;
             border-radius: 2px;
             transition: all 0.3s ease;
         }
 
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             .hamburger {
                 display: flex;
+            }
+
+            .navbar-container {
+                padding: 0 1rem;
             }
 
             .navbar-nav {
@@ -187,14 +223,14 @@ $cart_count = count($cart_items);
                 top: 60px;
                 left: 0;
                 width: 100%;
-                background: var(--primary);
+                background: linear-gradient(135deg, #D4A574 0%, #C9915D 100%);
                 flex-direction: column;
                 padding: 1rem 0;
                 transform: translateY(-100%);
                 opacity: 0;
                 visibility: hidden;
                 transition: all 0.3s ease;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                z-index: 999;
             }
 
             .navbar-nav.active {
@@ -205,23 +241,24 @@ $cart_count = count($cart_items);
 
             .nav-item {
                 width: 100%;
-                text-align: center;
             }
 
             .nav-link {
-                padding: 0.8rem 1rem;
+                padding: 1rem;
                 justify-content: center;
+                color: white;
             }
 
             .dropdown-menu {
                 position: static;
-                background: rgba(255, 255, 255, 0.1);
+                background: rgba(255, 255, 255, 0.15);
                 box-shadow: none;
                 opacity: 1;
                 visibility: visible;
                 transform: none;
                 display: none;
-                margin-top: 0.5rem;
+                margin-top: 0;
+                border: none;
             }
 
             .dropdown.active .dropdown-menu {
@@ -229,12 +266,13 @@ $cart_count = count($cart_items);
             }
 
             .dropdown-item {
-                color: white;
                 justify-content: center;
+                color: white;
             }
 
             .dropdown-item:hover {
-                background-color: rgba(255, 255, 255, 0.1);
+                background-color: rgba(255, 255, 255, 0.2);
+                padding-left: 1.5rem;
             }
         }
     </style>
@@ -243,7 +281,6 @@ $cart_count = count($cart_items);
     <nav class="navbar">
         <div class="navbar-container">
             <a href="<?php echo CUSTOMER_URL; ?>dashboard.php" class="navbar-brand">
-                <!-- Ganti dengan logo asli jika tersedia -->
                 <span>🍞</span>
                 <span>Brew Bakery</span>
             </a>
@@ -282,12 +319,12 @@ $cart_count = count($cart_items);
                         <?php endif; ?>
                     </a>
                 </li>
-              
+
                 <!-- Dropdown Profil -->
                 <li class="nav-item dropdown" id="profileDropdown">
                     <div class="dropdown-toggle">
                         <span>👤</span>
-                        <span><?php echo htmlspecialchars($customer['nama']); ?></span>
+                        <span><?php echo htmlspecialchars(substr($customer['nama'], 0, 10)); ?></span>
                         <span>▼</span>
                     </div>
                     <div class="dropdown-menu">
@@ -314,7 +351,6 @@ $cart_count = count($cart_items);
         // Toggle menu mobile
         document.getElementById('hamburger').addEventListener('click', function() {
             document.getElementById('navbarNav').classList.toggle('active');
-            this.classList.toggle('active');
         });
 
         // Toggle dropdown di mobile
@@ -325,22 +361,6 @@ $cart_count = count($cart_items);
             }
         });
 
-        // Auto-refresh unread badge setiap 5 detik
-        setInterval(function() {
-            fetch('<?php echo API_URL; ?>get-unread-messages.php')
-                .then(response => response.json())
-                .then(data => {
-                    const badge = document.getElementById('unread-badge');
-                    if (data.count > 0) {
-                        badge.textContent = data.count;
-                        badge.style.display = 'inline-block';
-                    } else {
-                        badge.style.display = 'none';
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        }, 5000); // Refresh setiap 5 detik
-
         // Tutup menu saat klik di luar
         document.addEventListener('click', function(e) {
             const navbarNav = document.getElementById('navbarNav');
@@ -348,7 +368,6 @@ $cart_count = count($cart_items);
             
             if (!navbarNav.contains(e.target) && !hamburger.contains(e.target)) {
                 navbarNav.classList.remove('active');
-                hamburger.classList.remove('active');
             }
         });
     </script>

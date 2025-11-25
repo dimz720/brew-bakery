@@ -85,6 +85,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Tambah Produk - Brew Bakery Admin</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css">
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
         .admin-content {
             padding: 2rem;
             flex: 1;
@@ -220,7 +230,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     
     
-    <div style="display: flex;">
+    <div style="display: flex; min-height: 100vh;">
         <?php include __DIR__ . '/../includes/sidebar.php'; ?>
         
         <div class="admin-content">
@@ -277,16 +287,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div id="mainImagePreview" class="image-preview"></div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="photos">Foto Tambahan</label>
-                            <div class="image-upload" onclick="document.getElementById('photos').click()">
-                                <p>📷 Klik untuk upload atau drag file di sini</p>
-                                <p style="color: #666; font-size: 0.9rem;">Bisa upload multiple files</p>
-                            </div>
-                            <input type="file" id="photos" name="photos[]" accept="image/*" multiple onchange="previewImages(this)">
-                            <div id="additionalImagesPreview" class="image-preview"></div>
-                        </div>
-                    </div>
 
                     <div class="form-actions">
                         <button type="submit" class="btn-submit">💾 Simpan Produk</button>

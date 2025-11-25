@@ -63,6 +63,16 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
     <title>Manajemen Artikel - Brew Bakery Admin</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css">
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
         .admin-content {
             padding: 2rem;
             flex: 1;
@@ -181,7 +191,7 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
 <body>
     
     
-    <div style="display: flex;">
+    <div style="display: flex; min-height: 100vh;">
         <?php include __DIR__ . '/../includes/sidebar.php'; ?>
         
         <div class="admin-content">

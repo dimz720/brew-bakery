@@ -48,8 +48,13 @@
         
         <li><a href="<?php echo ADMIN_URL; ?>orders/" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/orders/') !== false ? 'active' : ''; ?>">📦 Pesanan</a></li>
         <li><a href="<?php echo ADMIN_URL; ?>shipping/" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/shipping/') !== false ? 'active' : ''; ?>">🚚 Ongkir</a></li>
-       <li> <a href="<?php echo AUTH_URL; ?>logout.php" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/logout/') !== false ? 'active' : ''; ?>"> 🚪 Logout</a></li>
-                    
         
+        <div class="sidebar-divider"></div>
+        
+        <li><a href="<?php echo ADMIN_URL; ?>reports/" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/reports/') !== false ? 'active' : ''; ?>">📊 Laporan</a></li>
+        
+        <div class="sidebar-divider"></div>
+        
+        <li><a href="<?php echo AUTH_URL; ?>logout.php">🚪 Logout</a></li>
     </ul>
 </div>

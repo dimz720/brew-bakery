@@ -493,6 +493,117 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     </div>
                 </div>
             </div>
+
+            <!-- TAMBAHAN: Section untuk review produk -->
+            <?php if ($order['status'] === 'selesai'): ?>
+            <div class="detail-section">
+                <h2>⭐ Berikan Rating & Review</h2>
+                <p style="color: #666; margin-bottom: 1.5rem;">Bagikan pengalaman Anda dengan produk yang telah diterima</p>
+                
+                <div style="max-height: 400px; overflow-y: auto;">
+                    <?php foreach ($items as $item): 
+                        // Check if already reviewed
+                        $review_check = $conn->query("SELECT id FROM reviews WHERE product_id = {$item['product_id']} AND customer_id = $customer_id")->fetch_assoc();
+                        $already_reviewed = !empty($review_check);
+                    ?>
+                    <div style="background-color: var(--light); padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1rem; border-left: 4px solid var(--primary);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <div>
+                                <h4 style="margin: 0; color: var(--dark);"><?php echo htmlspecialchars($item['nama']); ?></h4>
+                                <small style="color: #666;">Qty: <?php echo $item['jumlah']; ?></small>
+                            </div>
+                            <?php if ($already_reviewed): ?>
+                            <span style="background-color: #28a745; color: white; padding: 0.5rem 1rem; border-radius: 0.3rem; font-size: 0.85rem; font-weight: 600;">✓ Sudah di-review</span>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <?php if (!$already_reviewed): ?>
+                        <form method="POST" action="<?php echo API_URL; ?>add-review.php" style="display: flex; flex-direction: column; gap: 1rem;">
+                            <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
+                            
+                            <!-- Rating Stars -->
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Rating:</label>
+                                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                    <div class="star-rating" style="display: flex; gap: 0.25rem;">
+                                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                                        <input type="radio" name="rating" value="<?php echo $i; ?>" id="rating-<?php echo $item['product_id']; ?>-<?php echo $i; ?>" style="display: none;" required>
+                                        <label for="rating-<?php echo $item['product_id']; ?>-<?php echo $i; ?>" class="star-label" style="font-size: 2rem; cursor: pointer; color: #ddd; transition: all 0.2s;">⭐</label>
+                                        <?php endfor; ?>
+                                    </div>
+                                    <span id="rating-text-<?php echo $item['product_id']; ?>" style="color: #666; font-weight: 600;">Pilih rating</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Review Text -->
+                            <div>
+                                <label for="ulasan-<?php echo $item['product_id']; ?>" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Ulasan (Opsional):</label>
+                                <textarea name="ulasan" id="ulasan-<?php echo $item['product_id']; ?>" placeholder="Bagikan pengalaman Anda tentang produk ini..." style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 0.3rem; resize: vertical; min-height: 80px;"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn-action btn-verify" style="width: 100%; margin: 0;">✓ Kirim Review</button>
+                        </form>
+                        
+                        <script>
+                        (function() {
+                            const productId = <?php echo $item['product_id']; ?>;
+                            const ratingInputs = document.querySelectorAll('input[name="rating"][value]');
+                            const starLabels = document.querySelectorAll(`label[for^="rating-${productId}-"]`);
+                            const ratingText = document.getElementById(`rating-text-${productId}`);
+                            
+                            const ratingTexts = ['', 'Sangat Buruk', 'Buruk', 'Cukup', 'Bagus', 'Sangat Bagus'];
+                            
+                            starLabels.forEach((label, index) => {
+                                label.addEventListener('click', function() {
+                                    const rating = index + 1;
+                                    ratingText.textContent = ratingTexts[rating];
+                                    
+                                    // Update star colors
+                                    starLabels.forEach((l, i) => {
+                                        if (i < rating) {
+                                            l.style.color = '#FFD700';
+                                        } else {
+                                            l.style.color = '#ddd';
+                                        }
+                                    });
+                                });
+                                
+                                // Hover effect
+                                label.addEventListener('mouseover', function() {
+                                    const hoverRating = index + 1;
+                                    starLabels.forEach((l, i) => {
+                                        if (i < hoverRating) {
+                                            l.style.color = '#FFD700';
+                                        } else {
+                                            l.style.color = '#ddd';
+                                        }
+                                    });
+                                });
+                            });
+                            
+                            // Reset on mouse leave
+                            const container = document.querySelector(`.star-rating`);
+                            if (container) {
+                                container.addEventListener('mouseleave', function() {
+                                    const checkedInput = document.querySelector(`input[name="rating"]:checked`);
+                                    if (checkedInput) {
+                                        const rating = parseInt(checkedInput.value);
+                                        starLabels.forEach((l, i) => {
+                                            l.style.color = i < rating ? '#FFD700' : '#ddd';
+                                        });
+                                    } else {
+                                        starLabels.forEach(l => l.style.color = '#ddd');
+                                    }
+                                });
+                            }
+                        })();
+                        </script>
+                        <?php endif; ?>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <?php endif; ?>
         </div>
     </div>
 

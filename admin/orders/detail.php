@@ -36,6 +36,18 @@ $payment = $stmt->get_result()->fetch_assoc();
 $error = '';
 $success = '';
 
+// ============================================
+// FIX #1: Define valid status transitions
+// ============================================
+$valid_next_statuses = [
+    'menunggu_bukti' => [],
+    'menunggu_verifikasi' => ['diterima', 'ditolak'],
+    'diterima' => ['siap_kirim'],
+    'ditolak' => [],
+    'siap_kirim' => ['selesai'],
+    'selesai' => []
+];
+
 // Handle status update
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = sanitize($_POST['action'] ?? '');
@@ -72,7 +84,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } elseif ($action === 'update_status') {
         $new_status = sanitize($_POST['status'] ?? '');
-        if (array_key_exists($new_status, ORDER_STATUS)) {
+        
+        // ============================================
+        // FIX #1: Validate status transition
+        // ============================================
+        if (!in_array($new_status, $valid_next_statuses[$order['status']])) {
+            $error = 'Status tidak valid! Status hanya bisa maju ke tahap selanjutnya.';
+        } else {
             $update_query = "UPDATE orders SET status = ? WHERE id = ?";
             $stmt = $conn->prepare($update_query);
             $stmt->bind_param("si", $new_status, $order_id);
@@ -255,6 +273,25 @@ $customer = getCustomerById($order['customer_id']);
             white-space: nowrap;
         }
         
+        /* FIX #2: Verified payment proof style */
+        .verified-badge {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .verified-info {
+            background-color: #d1e7dd;
+            border-left: 4px solid #28a745;
+            padding: 1rem;
+            border-radius: 0.3rem;
+            margin-bottom: 1rem;
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -334,9 +371,24 @@ $customer = getCustomerById($order['customer_id']);
                         </div>
                     </div>
 
-                    <?php if ($payment && !$payment['verified_at'] && $order['status'] === 'menunggu_verifikasi'): ?>
+                    <?php 
+                    // ============================================
+                    // FIX #2: Show payment proof even after verification
+                    // ============================================
+                    if ($payment): 
+                    ?>
                     <div class="detail-section">
                         <h2>💳 Bukti Pembayaran</h2>
+                        
+                        <?php if ($payment['verified_at']): ?>
+                            <div class="verified-info">
+                                <span class="verified-badge">✓ Terverifikasi</span>
+                                <p style="margin: 0.5rem 0 0 0; color: #0f5132;">
+                                    <strong>Diverifikasi pada:</strong> <?php echo formatDate($payment['verified_at']); ?>
+                                </p>
+                            </div>
+                        <?php endif; ?>
+                        
                         <div style="position: relative;">
                             <img src="<?php echo PAYMENT_PROOF_URL . $payment['bukti_file']; ?>" 
                                  alt="Bukti Pembayaran" 
@@ -348,6 +400,7 @@ $customer = getCustomerById($order['customer_id']);
                             </p>
                         </div>
                         
+                        <?php if (!$payment['verified_at'] && $order['status'] === 'menunggu_verifikasi'): ?>
                         <form method="POST" action="" class="action-form">
                             <input type="hidden" name="action" value="verify_payment">
                             <button type="submit" class="btn-action btn-verify" style="width: 100%; margin-bottom: 0.5rem;">✓ Verifikasi Pembayaran</button>
@@ -355,9 +408,10 @@ $customer = getCustomerById($order['customer_id']);
 
                         <form method="POST" action="" class="action-form" style="margin-bottom: 0;">
                             <input type="hidden" name="action" value="reject_payment">
-                            <textarea name="alasan" placeholder="Alasan penolakan..." style="width: 100%; padding: 0.75rem; margin-bottom: 0.5rem; border: 1px solid #ddd; border-radius: 0.3rem;"></textarea>
+                            <textarea name="alasan" placeholder="Alasan penolakan..." style="width: 100%; padding: 0.75rem; margin-bottom: 0.5rem; border: 1px solid #ddd; border-radius: 0.3rem;" required></textarea>
                             <button type="submit" class="btn-action btn-reject" style="width: 100%;">✕ Tolak Pembayaran</button>
                         </form>
+                        <?php endif; ?>
                     </div>
                     <?php endif; ?>
                 </div>
@@ -393,14 +447,24 @@ $customer = getCustomerById($order['customer_id']);
                             <div style="margin-bottom: 1rem;">
                                 <label for="status" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Ubah Status</label>
                                 <select name="status" id="status" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 0.3rem;">
-                                    <?php foreach (ORDER_STATUS as $status_key => $status_label): ?>
-                                        <?php if ($status_key !== $order['status']): ?>
-                                        <option value="<?php echo $status_key; ?>"><?php echo $status_label; ?></option>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
+                                    <?php 
+                                    // ============================================
+                                    // FIX #1: Only show valid next statuses
+                                    // ============================================
+                                    $next_statuses = $valid_next_statuses[$order['status']];
+                                    if (empty($next_statuses)): 
+                                    ?>
+                                        <option value="">Tidak ada status selanjutnya</option>
+                                    <?php else: ?>
+                                        <?php foreach ($next_statuses as $status_key): ?>
+                                        <option value="<?php echo $status_key; ?>"><?php echo ORDER_STATUS[$status_key]; ?></option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </select>
                             </div>
+                            <?php if (!empty($next_statuses)): ?>
                             <button type="submit" class="btn-action btn-verify" style="width: 100%;">Update Status</button>
+                            <?php endif; ?>
                         </form>
                         <?php endif; ?>
                     </div>
@@ -435,7 +499,7 @@ $customer = getCustomerById($order['customer_id']);
             paymentImg.addEventListener('click', function() {
                 lightboxImage.src = this.src;
                 lightboxModal.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Prevent scrolling
+                document.body.style.overflow = 'hidden';
             });
         }
 

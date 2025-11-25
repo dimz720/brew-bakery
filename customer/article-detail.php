@@ -260,7 +260,7 @@ $related = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                     <div class="related-card">
                         <?php if ($article_item['foto']): ?>
                         <div class="related-image">
-                            <img src="<?php echo ARTICLE_IMG_DIR . htmlspecialchars($article_item['foto']); ?>" alt="">
+                            <img src="<?php echo ARTICLE_IMG_URL . htmlspecialchars($article_item['foto']); ?>" alt="">
                         </div>
                         <?php else: ?>
                         <div class="related-image">
