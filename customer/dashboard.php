@@ -81,14 +81,14 @@ $banners = [
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            /* ← PERBAIKAN: Bright & Warm Bakery Palette */
-            --primary: #F4E4C1;
-            --secondary: #E8D4B8;
-            --accent: #FFF9F0;
+            /* ← PERBAIKAN: Konsisten dengan tema coklat admin */
+            --primary: #8B6F47;
+            --secondary: #D4A574;
+            --accent: #F5E6D3;
             --gold: #D4A574;
-            --honey: #C9915D;
+            --honey: #6B4423;
             --dark: #2D2D2D;
-            --light: #FFFBF7;
+            --light: #F5F1ED;
         }
 
         * {
@@ -146,6 +146,7 @@ $banners = [
             right: 0;
             bottom: 0;
             z-index: -1;
+            background: linear-gradient(135deg, rgba(245, 230, 211, 0.95) 0%, rgba(248, 237, 216, 0.95) 100%);
         }
 
         .slide-content {
@@ -174,7 +175,7 @@ $banners = [
             line-height: 1.15;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
             letter-spacing: -1.5px;
-            color: var(--honey);
+            color: #6B4423;
         }
 
         .slide-content p:first-of-type {
@@ -184,7 +185,7 @@ $banners = [
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.08);
             font-weight: 600;
             letter-spacing: 0.3px;
-            color: var(--dark);
+            color: #8B6F47;
         }
 
         .slide-content p:last-of-type {
@@ -194,7 +195,7 @@ $banners = [
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
             line-height: 1.7;
             letter-spacing: 0.2px;
-            color: var(--dark);
+            color: #6B4423;
         }
 
         .slide-cta {
@@ -202,20 +203,20 @@ $banners = [
             align-items: center;
             gap: 0.8rem;
             padding: 1.3rem 3rem;
-            background: linear-gradient(135deg, var(--gold) 0%, var(--honey) 100%);
+            background: linear-gradient(135deg, #D4A574 0%, #8B6F47 100%);
             color: white;
             text-decoration: none;
             border-radius: 50px;
             font-weight: 800;
             font-size: 1.15rem;
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 8px 25px rgba(212, 165, 116, 0.3);
+            box-shadow: 0 8px 25px rgba(139, 111, 71, 0.3);
             border: 3px solid transparent;
         }
 
         .slide-cta:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 35px rgba(212, 165, 116, 0.4);
+            box-shadow: 0 12px 35px rgba(139, 111, 71, 0.4);
         }
 
         .slide-icon {
@@ -261,7 +262,7 @@ $banners = [
         }
 
         .slider-dot.active {
-            background: var(--gold);
+            background: #D4A574;
             transform: scale(1.5);
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
         }
@@ -547,7 +548,6 @@ $banners = [
         }
 
         .cart-action a:hover {
-            transform: translateY(-3px);
             box-shadow: 0 8px 30px rgba(139, 69, 19, 0.4);
         }
 
@@ -589,12 +589,15 @@ $banners = [
             box-shadow: 0 5px 20px rgba(139, 69, 19, 0.1);
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         .product-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(139, 69, 19, 0.2);
             border-color: var(--accent);
+            box-shadow: 0 12px 30px rgba(139, 69, 19, 0.2);
         }
 
         .product-image {
@@ -606,6 +609,7 @@ $banners = [
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
 
         .product-image img {
@@ -630,18 +634,23 @@ $banners = [
             font-size: 0.85rem;
             font-weight: 700;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 2;
         }
 
         .product-info {
             padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .product-name {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--dark);
             margin-bottom: 0.5rem;
             line-height: 1.4;
+            min-height: 2.2em;
         }
 
         .product-rating {
@@ -655,10 +664,11 @@ $banners = [
             justify-content: space-between;
             align-items: center;
             gap: 1rem;
+            margin-top: auto;
         }
 
         .product-price {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 800;
             color: var(--primary);
         }
@@ -667,12 +677,13 @@ $banners = [
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
             border: none;
-            padding: 0.75rem 1.5rem;
+            padding: 0.7rem 1.2rem;
             border-radius: 2rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2);
+            flex-shrink: 0;
         }
 
         .add-to-cart-btn:hover {

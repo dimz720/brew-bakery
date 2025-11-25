@@ -17,17 +17,16 @@ $cart_count = count($cart_items);
     <title>Brew Bakery</title>
     <style>
         :root {
-            /* ← PERBAIKAN: Bright & Warm Bakery Colors */
-            --primary: #F4E4C1;              /* Vanilla Cream */
-            --primary-light: #E8D4B8;        /* Lighter Vanilla - untuk navbar */
-            --secondary: #E8D4B8;            /* Soft Butter */
-            --accent: #FFF9F0;               /* Milk White */
-            --gold: #D4A574;                 /* Caramel Gold */
-            --honey: #C9915D;                /* Honey Brown */
-            --text-dark: #2D2D2D;            /* Dark Text */
-            --text-light: #FFFFFF;           /* White Text */
-            --bg-light: #FFFBF7;             /* Light Cream */
-            --border: #E6CEB3;               /* Light Border */
+            /* ← PERBAIKAN: Konsisten dengan tema coklat */
+            --primary: #8B6F47;
+            --secondary: #D4A574;
+            --accent: #F5E6D3;
+            --gold: #D4A574;
+            --honey: #6B4423;
+            --text-dark: #2D2D2D;
+            --text-light: #FFFFFF;
+            --bg-light: #F5F1ED;
+            --border: #E6CEB3;
         }
 
         /* RESET */
@@ -40,14 +39,14 @@ $cart_count = count($cart_items);
 
         /* NAVBAR */
         .navbar {
-            background: linear-gradient(135deg, #D4A574 0%, #C9915D 100%);
-            color: var(--text-dark);
+            background: linear-gradient(135deg, #8B6F47 0%, #6B4423 100%);
+            color: white;
             padding: 1rem 0;
-            box-shadow: 0 4px 15px rgba(201, 145, 93, 0.25);
+            box-shadow: 0 4px 15px rgba(107, 68, 35, 0.25);
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 3px solid #B8860B;
+            border-bottom: 3px solid #D4A574;
         }
 
         .navbar-container {
@@ -88,11 +87,11 @@ $cart_count = count($cart_items);
         /* Link */
         .nav-link {
             color: white;
+            transition: all 0.3s ease;
             text-decoration: none;
             font-weight: 500;
             padding: 0.75rem 1.2rem;
             border-radius: 0.5rem;
-            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -109,8 +108,8 @@ $cart_count = count($cart_items);
             position: absolute;
             top: -8px;
             right: -8px;
-            background-color: #FFC107;
-            color: #2D2D2D;
+            background-color: #F5E6D3;
+            color: #6B4423;
             padding: 0.2rem 0.5rem;
             border-radius: 50%;
             font-size: 0.65rem;
@@ -161,7 +160,7 @@ $cart_count = count($cart_items);
             transition: all 0.3s ease;
             z-index: 1001;
             margin-top: 0.5rem;
-            border: 1px solid #E6CEB3;
+            border: 1px solid #D4A574;
         }
 
         .dropdown:hover .dropdown-menu {
@@ -181,14 +180,14 @@ $cart_count = count($cart_items);
         }
 
         .dropdown-item:hover {
-            background-color: #FFF9F0;
-            color: #C9915D;
+            background-color: #F5F1ED;
+            color: #8B6F47;
             padding-left: 2rem;
         }
 
         .dropdown-divider {
             height: 1px;
-            background-color: #E6CEB3;
+            background-color: #D4A574;
             margin: 0.5rem 0;
         }
 
@@ -223,7 +222,7 @@ $cart_count = count($cart_items);
                 top: 60px;
                 left: 0;
                 width: 100%;
-                background: linear-gradient(135deg, #D4A574 0%, #C9915D 100%);
+                background: linear-gradient(135deg, #8B6F47 0%, #6B4423 100%);
                 flex-direction: column;
                 padding: 1rem 0;
                 transform: translateY(-100%);

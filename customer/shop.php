@@ -136,8 +136,8 @@ $products = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
         .shop-content {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
             margin-bottom: 2rem;
         }
         .product-card {
@@ -146,6 +146,9 @@ $products = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
         .product-card:hover {
             transform: translateY(-5px);
@@ -153,35 +156,46 @@ $products = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
         .product-image {
             width: 100%;
-            height: 200px;
+            height: 250px;
             background-color: var(--accent);
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
             position: relative;
+            flex-shrink: 0;
         }
         .product-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.3s;
+        }
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
         }
         .product-image-placeholder {
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 200px;
+            height: 250px;
             background-color: #f0f0f0;
             color: #999;
+            flex-shrink: 0;
         }
         .product-info {
             padding: 1rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
         .product-name {
             font-weight: 600;
             color: var(--dark);
             margin-bottom: 0.5rem;
-            min-height: 2.5em;
+            min-height: 2.4em;
+            line-height: 1.2;
+            font-size: 1.05rem;
         }
         .product-category {
             font-size: 0.85rem;
@@ -191,13 +205,13 @@ $products = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         .product-rating {
             font-size: 0.9rem;
             color: #ffc107;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
         }
         .product-price {
-            font-size: 1.25rem;
+            font-size: 1.4rem;
             font-weight: bold;
             color: var(--primary);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
         }
         .product-stock {
             font-size: 0.85rem;
@@ -205,25 +219,29 @@ $products = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         }
         .stock-available {
             color: #28a745;
+            font-weight: 600;
         }
         .stock-low {
             color: #ffc107;
+            font-weight: 600;
         }
         .stock-out {
             color: #dc3545;
+            font-weight: 600;
         }
         .product-actions {
             display: flex;
             gap: 0.5rem;
+            margin-top: auto;
         }
         .product-actions a,
         .product-actions button {
             flex: 1;
-            padding: 0.5rem;
+            padding: 0.6rem 0.5rem;
             border: none;
             border-radius: 0.3rem;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
             text-decoration: none;
             text-align: center;
             transition: opacity 0.3s;
@@ -246,6 +264,7 @@ $products = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         .btn-cart:disabled {
             background-color: #ccc;
             cursor: not-allowed;
+            opacity: 0.6;
         }
         .empty-state {
             text-align: center;
