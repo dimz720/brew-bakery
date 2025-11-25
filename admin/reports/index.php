@@ -25,7 +25,7 @@ $products_low_stock = $conn->query("SELECT COUNT(*) as count FROM products WHERE
         .admin-content { flex: 1; padding: 2rem; background-color: var(--light); }
         
         .page-header { margin-bottom: 2rem; }
-        .page-header h1 { color: var(--primary); margin-bottom: 0.5rem; }
+        .page-header h1 { color: #6B4423; margin-bottom: 0.5rem; }
         
         .stats-grid {
             display: grid;
@@ -39,11 +39,11 @@ $products_low_stock = $conn->query("SELECT COUNT(*) as count FROM products WHERE
             padding: 1.5rem;
             border-radius: 0.5rem;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border-left: 4px solid var(--primary);
+            border-left: 4px solid #8B6F47;
         }
         
         .stat-card h3 { font-size: 0.9rem; color: #666; margin: 0 0 0.5rem 0; }
-        .stat-card .number { font-size: 2rem; font-weight: 800; color: var(--primary); }
+        .stat-card .number { font-size: 2rem; font-weight: 800; color: #8B6F47; }
         
         .reports-grid {
             display: grid;
@@ -66,21 +66,24 @@ $products_low_stock = $conn->query("SELECT COUNT(*) as count FROM products WHERE
         .report-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            border-color: var(--primary);
+            border-color: #8B6F47;
         }
         
         .report-icon { font-size: 3rem; margin-bottom: 1rem; }
-        .report-card h3 { font-size: 1.3rem; color: var(--primary); margin-bottom: 0.5rem; }
+        .report-card h3 { font-size: 1.3rem; color: #6B4423; margin-bottom: 0.5rem; }
         .report-card p { color: #666; font-size: 0.95rem; line-height: 1.6; }
         .report-card .btn { 
             display: inline-block;
             margin-top: 1rem;
             padding: 0.75rem 1.5rem;
-            background: var(--primary);
+            background: #8B6F47;
             color: white;
             border-radius: 0.3rem;
             text-decoration: none;
             font-weight: 600;
+        }
+        .report-card .btn:hover {
+            background: #6B4423;
         }
         
         @media (max-width: 768px) {

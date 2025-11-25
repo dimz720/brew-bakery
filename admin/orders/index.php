@@ -93,12 +93,15 @@ $success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
         }
         .filter-form button {
             padding: 0.75rem 1.5rem;
-            background-color: var(--primary);
+            background-color: #8B6F47;
             color: white;
             border: none;
             border-radius: 0.3rem;
             cursor: pointer;
             font-weight: 600;
+        }
+        .filter-form button:hover {
+            background-color: #6B4423;
         }
         .orders-table {
             width: 100%;
@@ -109,8 +112,8 @@ $success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
             overflow: hidden;
         }
         .orders-table th {
-            background-color: var(--primary);
-            color: white;
+            background-color: #8B6F47;
+            color: #F5E6D3;
             padding: 1rem;
             text-align: left;
         }
@@ -119,7 +122,7 @@ $success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
             border-bottom: 1px solid #eee;
         }
         .orders-table tbody tr:hover {
-            background-color: var(--light);
+            background-color: #F5F1ED;
         }
         .status-badge {
             padding: 0.5rem 1rem;
@@ -153,12 +156,15 @@ $success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
         }
         .btn-detail {
             padding: 0.5rem 1rem;
-            background-color: var(--primary);
+            background-color: #8B6F47;
             color: white;
             text-decoration: none;
             border-radius: 0.3rem;
             font-size: 0.85rem;
             font-weight: 600;
+        }
+        .btn-detail:hover {
+            background-color: #6B4423;
         }
         .empty-state {
             text-align: center;
@@ -179,16 +185,16 @@ $success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
             border: 1px solid #ddd;
             border-radius: 0.3rem;
             text-decoration: none;
-            color: var(--primary);
+            color: #8B6F47;
         }
         .pagination a:hover {
-            background-color: var(--primary);
+            background-color: #8B6F47;
             color: white;
         }
         .pagination .active {
-            background-color: var(--primary);
+            background-color: #8B6F47;
             color: white;
-            border-color: var(--primary);
+            border-color: #8B6F47;
         }
     </style>
 </head>

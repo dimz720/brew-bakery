@@ -136,8 +136,8 @@ $customer = getCustomerById($order['customer_id']);
         }
         .detail-section h2 {
             margin-bottom: 1.5rem;
-            color: var(--primary);
-            border-bottom: 2px solid var(--primary);
+            color: #6B4423;
+            border-bottom: 2px solid #8B6F47;
             padding-bottom: 0.5rem;
         }
         .items-table {
@@ -145,8 +145,8 @@ $customer = getCustomerById($order['customer_id']);
             border-collapse: collapse;
         }
         .items-table th {
-            background-color: var(--primary);
-            color: white;
+            background-color: #8B6F47;
+            color: #F5E6D3;
             padding: 0.75rem;
             text-align: left;
         }
@@ -159,8 +159,8 @@ $customer = getCustomerById($order['customer_id']);
             padding: 0.75rem 1.5rem;
             border-radius: 0.3rem;
             font-weight: 600;
-            background-color: #d1e7dd;
-            color: #0f5132;
+            background-color: #8B6F47;
+            color: white;
         }
         .payment-proof-image {
             max-width: 100%;
@@ -175,7 +175,7 @@ $customer = getCustomerById($order['customer_id']);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
         .action-form {
-            background-color: var(--light);
+            background-color: #F5F1ED;
             padding: 1.5rem;
             border-radius: 0.3rem;
             margin-bottom: 1rem;

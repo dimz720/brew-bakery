@@ -60,7 +60,7 @@ $recent_orders = $conn->query($query_recent)->fetch_all(MYSQLI_ASSOC);
         .admin-content {
             flex: 1;
             padding: 2rem;
-            background-color: var(--light);
+            background-color: #F5F1ED;
         }
         .dashboard-grid {
             display: grid;
@@ -73,7 +73,7 @@ $recent_orders = $conn->query($query_recent)->fetch_all(MYSQLI_ASSOC);
             padding: 1.5rem;
             border-radius: 0.5rem;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border-left: 4px solid var(--primary);
+            border-left: 4px solid #8B6F47;
         }
         .stat-card h3 {
             font-size: 0.9rem;
@@ -84,13 +84,13 @@ $recent_orders = $conn->query($query_recent)->fetch_all(MYSQLI_ASSOC);
         .stat-card .number {
             font-size: 2rem;
             font-weight: bold;
-            color: var(--primary);
+            color: #8B6F47;
         }
         .stat-card.warning {
-            border-left-color: #ffc107;
+            border-left-color: #D4A574;
         }
         .stat-card.warning .number {
-            color: #ffc107;
+            color: #D4A574;
         }
         .recent-orders {
             background: white;
@@ -101,14 +101,15 @@ $recent_orders = $conn->query($query_recent)->fetch_all(MYSQLI_ASSOC);
         .recent-orders h3 {
             margin-top: 0;
             margin-bottom: 1rem;
+            color: #6B4423;
         }
         .table {
             width: 100%;
             border-collapse: collapse;
         }
         .table th {
-            background-color: var(--primary);
-            color: white;
+            background-color: #8B6F47;
+            color: #F5E6D3;
             padding: 0.75rem;
             text-align: left;
             font-weight: 600;
@@ -118,13 +119,15 @@ $recent_orders = $conn->query($query_recent)->fetch_all(MYSQLI_ASSOC);
             border-bottom: 1px solid #eee;
         }
         .table tbody tr:hover {
-            background-color: var(--light);
+            background-color: #F5F1ED;
         }
         .status-badge {
             padding: 0.25rem 0.75rem;
             border-radius: 0.25rem;
             font-size: 0.85rem;
             font-weight: 500;
+            background-color: #D4A574;
+            color: #6B4423;
         }
         @media (max-width: 768px) {
             .admin-layout {
@@ -195,7 +198,7 @@ $recent_orders = $conn->query($query_recent)->fetch_all(MYSQLI_ASSOC);
                                 </span>
                             </td>
                             <td><?php echo formatDate($order['created_at']); ?></td>
-                            <td><a href="<?php echo ADMIN_URL; ?>orders/detail.php?id=<?php echo $order['id']; ?>" style="color: var(--primary); text-decoration: none; font-weight: 600;">Lihat</a></td>
+                            <td><a href="<?php echo ADMIN_URL; ?>orders/detail.php?id=<?php echo $order['id']; ?>" style="display: inline-block; padding: 0.5rem 1rem; background-color: #8B6F47; color: white; text-decoration: none; border-radius: 0.3rem; font-weight: 600; font-size: 0.85rem;">Lihat</a></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>

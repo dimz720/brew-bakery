@@ -161,20 +161,26 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
         }
         .search-form button {
             padding: 0.75rem;
-            background-color: var(--primary);
+            background-color: #8B6F47;
             color: white;
             border: none;
             border-radius: 0.3rem;
             cursor: pointer;
             font-weight: 600;
         }
+        .search-form button:hover {
+            background-color: #6B4423;
+        }
         .btn-add {
-            background-color: var(--primary);
+            background-color: #8B6F47;
             color: white;
             padding: 0.75rem 1.5rem;
             text-decoration: none;
             border-radius: 0.3rem;
             font-weight: 600;
+        }
+        .btn-add:hover {
+            background-color: #6B4423;
         }
         .alert {
             padding: 1rem;
@@ -201,8 +207,8 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
             overflow: hidden;
         }
         .products-table th {
-            background-color: var(--primary);
-            color: white;
+            background-color: #8B6F47;
+            color: #F5E6D3;
             padding: 1rem;
             text-align: left;
         }
@@ -211,7 +217,7 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
             border-bottom: 1px solid #eee;
         }
         .products-table tbody tr:hover {
-            background-color: var(--light);
+            background-color: #F5F1ED;
         }
         .product-image {
             width: 50px;
@@ -240,12 +246,19 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
             display: inline-block;
         }
         .btn-edit {
-            background-color: var(--secondary);
+            background-color: #D4A574;
+            color: #6B4423;
+        }
+        .btn-edit:hover {
+            background-color: #8B6F47;
             color: white;
         }
         .btn-delete {
             background-color: #dc3545;
             color: white;
+        }
+        .btn-delete:hover {
+            background-color: #c82333;
         }
         .empty-state {
             text-align: center;
@@ -266,16 +279,16 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
             border: 1px solid #ddd;
             border-radius: 0.3rem;
             text-decoration: none;
-            color: var(--primary);
+            color: #8B6F47;
         }
         .pagination a:hover {
-            background-color: var(--primary);
+            background-color: #8B6F47;
             color: white;
         }
         .pagination .active {
-            background-color: var(--primary);
+            background-color: #8B6F47;
             color: white;
-            border-color: var(--primary);
+            border-color: #8B6F47;
         }
     </style>
 </head>

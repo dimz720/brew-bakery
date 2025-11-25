@@ -81,7 +81,7 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
         }
         .form-section h3 {
             margin-bottom: 1rem;
-            color: var(--primary);
+            color: #6B4423;
             margin-top: 0;
         }
         .form-group {
@@ -91,6 +91,7 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
+            color: #6B4423;
         }
         .form-group input {
             width: 100%;
@@ -101,7 +102,7 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
         }
         .form-group input:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: #8B6F47;
             box-shadow: 0 0 0 3px rgba(139, 111, 71, 0.1);
         }
         .form-actions {
@@ -111,12 +112,15 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
         .btn-submit {
             flex: 1;
             padding: 0.75rem;
-            background-color: var(--primary);
+            background-color: #8B6F47;
             color: white;
             border: none;
             border-radius: 0.3rem;
             cursor: pointer;
             font-weight: 600;
+        }
+        .btn-submit:hover {
+            background-color: #6B4423;
         }
         .shipping-table {
             width: 100%;
@@ -127,8 +131,8 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
             overflow: hidden;
         }
         .shipping-table th {
-            background-color: var(--primary);
-            color: white;
+            background-color: #8B6F47;
+            color: #F5E6D3;
             padding: 1rem;
             text-align: left;
         }
@@ -137,7 +141,7 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
             border-bottom: 1px solid #eee;
         }
         .shipping-table tbody tr:hover {
-            background-color: var(--light);
+            background-color: #F5F1ED;
         }
         .btn-edit,
         .btn-delete {
@@ -150,7 +154,11 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
             font-weight: 500;
         }
         .btn-edit {
-            background-color: var(--secondary);
+            background-color: #D4A574;
+            color: #6B4423;
+        }
+        .btn-edit:hover {
+            background-color: #8B6F47;
             color: white;
         }
         .btn-delete {

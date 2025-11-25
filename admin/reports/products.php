@@ -84,7 +84,7 @@ if ($export === 'excel') {
         
         .report-container { max-width: 1200px; }
         .report-header { margin-bottom: 2rem; }
-        .report-header h1 { color: var(--primary); }
+        .report-header h1 { color: #6B4423; }
         
         .tabs {
             display: flex;
@@ -105,8 +105,8 @@ if ($export === 'excel') {
         }
         
         .tab-btn.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
+            color: #8B6F47;
+            border-bottom-color: #8B6F47;
         }
         
         .tab-content { display: none; }
@@ -115,13 +115,16 @@ if ($export === 'excel') {
         .export-btn {
             float: right;
             padding: 0.5rem 1.5rem;
-            background: var(--secondary);
+            background: #8B6F47;
             color: white;
             border: none;
             border-radius: 0.3rem;
             cursor: pointer;
             font-weight: 600;
             margin-bottom: 1rem;
+        }
+        .export-btn:hover {
+            background: #6B4423;
         }
         
         .table-container {
@@ -138,15 +141,14 @@ if ($export === 'excel') {
         }
         
         .table th {
-            background: var(--primary);
-            color: white;
+            background: #8B6F47;
+            color: #F5E6D3;
             padding: 1rem;
             text-align: left;
             font-weight: 600;
         }
-        
         .table td { padding: 1rem; border-bottom: 1px solid #eee; }
-        .table tbody tr:hover { background-color: var(--light); }
+        .table tbody tr:hover { background-color: #F5F1ED; }
         
         .stock-low { color: #dc3545; font-weight: 600; }
         .stock-good { color: #28a745; font-weight: 600; }

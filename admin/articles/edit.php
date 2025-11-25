@@ -99,6 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .form-card h1 {
             font-size: 1.5rem;
             margin-bottom: 1.5rem;
+            color: #6B4423;
         }
 
         .form-section {
@@ -108,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .form-section h3 {
             font-size: 1.2rem;
             margin-bottom: 1rem;
-            color: #333;
+            color: #6B4423;
         }
 
         .form-group {
@@ -119,34 +120,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: bold;
+            color: #6B4423;
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
             padding: 0.75rem;
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
             border-radius: 0.3rem;
             font-size: 1rem;
         }
 
-        .form-group textarea {
-            resize: vertical;
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #8B6F47;
+            box-shadow: 0 0 0 3px rgba(139, 111, 71, 0.1);
         }
 
         .image-upload {
-            border: 2px dashed #007bff;
+            border: 2px dashed #8B6F47;
             padding: 1rem;
             text-align: center;
             border-radius: 0.3rem;
             cursor: pointer;
-            margin-bottom: 1rem;
+            background-color: rgba(139, 111, 71, 0.05);
+            transition: all 0.3s;
         }
 
-        .image-upload p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: #007bff;
+        .image-upload:hover {
+            border-color: #6B4423;
+            background-color: rgba(139, 111, 71, 0.1);
         }
 
         .image-preview {
@@ -172,22 +177,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         .btn-submit {
-            background: #007bff;
-            color: #fff;
+            background: #8B6F47;
+            color: white;
         }
 
         .btn-submit:hover {
-            background: #0056b3;
+            background: #6B4423;
         }
 
         .btn-cancel {
-            background: #f44336;
-            color: #fff;
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.3rem;
+            font-size: 1rem;
+            background: #D4A574;
+            color: #6B4423;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: background 0.3s;
             margin-left: 1rem;
         }
 
         .btn-cancel:hover {
-            background: #c62828;
+            background: #8B6F47;
+            color: white;
         }
 
         .alert {

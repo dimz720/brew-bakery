@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         .form-card h1 {
             margin-bottom: 1.5rem;
-            color: var(--primary);
+            color: #6B4423;
         }
         .form-section {
             margin-bottom: 2rem;
@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         .form-section h3 {
             margin-bottom: 1rem;
-            color: var(--primary);
+            color: #6B4423;
         }
         .form-group {
             margin-bottom: 1.5rem;
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
-            color: var(--dark);
+            color: #6B4423;
         }
         .form-group input,
         .form-group textarea {
@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: #8B6F47;
             box-shadow: 0 0 0 3px rgba(139, 111, 71, 0.1);
         }
         .form-group textarea {
@@ -121,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             min-height: 80px;
         }
         .image-upload {
-            border: 2px dashed var(--primary);
+            border: 2px dashed #8B6F47;
             border-radius: 0.5rem;
             padding: 2rem;
             text-align: center;
@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             transition: all 0.3s;
         }
         .image-upload:hover {
-            border-color: var(--dark);
+            border-color: #6B4423;
             background-color: rgba(139, 111, 71, 0.1);
         }
         .image-upload input {
@@ -156,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .btn-submit {
             flex: 1;
             padding: 1rem;
-            background-color: var(--primary);
+            background-color: #8B6F47;
             color: white;
             border: none;
             border-radius: 0.3rem;
@@ -165,13 +165,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             transition: background-color 0.3s;
         }
         .btn-submit:hover {
-            background-color: var(--dark);
+            background-color: #6B4423;
         }
         .btn-cancel {
             flex: 1;
             padding: 1rem;
-            background-color: var(--secondary);
-            color: white;
+            background-color: #D4A574;
+            color: #6B4423;
             border: none;
             border-radius: 0.3rem;
             font-weight: 600;
@@ -180,7 +180,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-align: center;
         }
         .btn-cancel:hover {
-            background-color: var(--primary);
+            background-color: #8B6F47;
+            color: white;
         }
     </style>
 </head>

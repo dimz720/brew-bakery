@@ -101,7 +101,7 @@ if ($export === 'excel') {
         
         .report-container { max-width: 1200px; }
         .report-header { margin-bottom: 2rem; }
-        .report-header h1 { color: var(--primary); }
+        .report-header h1 { color: #6B4423; }
         
         .filter-section {
             background: white;
@@ -113,13 +113,14 @@ if ($export === 'excel') {
         
         .filter-row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; }
         .filter-group { flex: 1; min-width: 150px; }
-        .filter-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+        .filter-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: #6B4423; }
         .filter-group select,
         .filter-group input { width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 0.3rem; }
-        .filter-group input[type="date"] { width: 100%; }
         
-        .btn-filter { padding: 0.5rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: 0.3rem; cursor: pointer; font-weight: 600; }
-        .btn-export { padding: 0.5rem 1.5rem; background: var(--secondary); color: white; border: none; border-radius: 0.3rem; cursor: pointer; font-weight: 600; margin-left: 0.5rem; }
+        .btn-filter { padding: 0.5rem 1.5rem; background: #8B6F47; color: white; border: none; border-radius: 0.3rem; cursor: pointer; font-weight: 600; }
+        .btn-filter:hover { background: #6B4423; }
+        .btn-export { padding: 0.5rem 1.5rem; background: #D4A574; color: #6B4423; border: none; border-radius: 0.3rem; cursor: pointer; font-weight: 600; margin-left: 0.5rem; }
+        .btn-export:hover { background: #8B6F47; color: white; }
         
         .stats-box {
             display: grid;
@@ -133,11 +134,11 @@ if ($export === 'excel') {
             padding: 1.5rem;
             border-radius: 0.5rem;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border-left: 4px solid var(--primary);
+            border-left: 4px solid #8B6F47;
         }
         
         .stat-item h4 { font-size: 0.9rem; color: #666; margin: 0 0 0.5rem 0; }
-        .stat-item .value { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+        .stat-item .value { font-size: 1.8rem; font-weight: 800; color: #8B6F47; }
         
         .table-container {
             background: white;
@@ -152,21 +153,22 @@ if ($export === 'excel') {
         }
         
         .table th {
-            background: var(--primary);
-            color: white;
+            background: #8B6F47;
+            color: #F5E6D3;
             padding: 1rem;
             text-align: left;
             font-weight: 600;
         }
-        
         .table td { padding: 1rem; border-bottom: 1px solid #eee; }
-        .table tbody tr:hover { background-color: var(--light); }
+        .table tbody tr:hover { background-color: #F5F1ED; }
         
         .status-badge {
             padding: 0.4rem 0.8rem;
             border-radius: 0.3rem;
             font-size: 0.85rem;
             font-weight: 600;
+            background-color: #d1ecf1;
+            color: #0c5460;
         }
         
         .empty-state { text-align: center; padding: 3rem; color: #999; }

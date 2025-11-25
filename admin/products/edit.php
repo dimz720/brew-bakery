@@ -57,28 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bind_param("issdisi", $category_id, $nama, $deskripsi, $harga, $stok, $foto_utama, $product_id);
 
             if ($stmt->execute()) {
-                // Handle additional photos
-                if (isset($_FILES['photos'])) {
-                    for ($i = 0; $i < count($_FILES['photos']['name']); $i++) {
-                        if ($_FILES['photos']['error'][$i] === UPLOAD_ERR_OK) {
-                            $file = [
-                                'name' => $_FILES['photos']['name'][$i],
-                                'tmp_name' => $_FILES['photos']['tmp_name'][$i],
-                                'error' => $_FILES['photos']['error'][$i],
-                                'size' => $_FILES['photos']['size'][$i]
-                            ];
-                            
-                            $photo_filename = uploadImage($file, PRODUCT_IMG_DIR);
-                            if ($photo_filename) {
-                                $photo_query = "INSERT INTO product_photos (product_id, foto) VALUES (?, ?)";
-                                $photo_stmt = $conn->prepare($photo_query);
-                                $photo_stmt->bind_param("is", $product_id, $photo_filename);
-                                $photo_stmt->execute();
-                            }
-                        }
-                    }
-                }
-
                 $success = 'Produk berhasil diperbarui!';
                 $product = getProductById($product_id);
             } else {
@@ -121,6 +99,7 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
         body {
             margin: 0;
             padding: 0;
+            font-size: 16px;
         }
         
         .admin-layout {
@@ -137,11 +116,117 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
             padding: 2rem;
             border-radius: 0.5rem;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
+            max-width: 1000px;
+            width: 100%;
         }
         .form-card h1 {
             margin-bottom: 1.5rem;
-            color: var(--primary);
+            color: #6B4423;
+            font-size: 2rem;
+        }
+        
+        .form-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            align-items: start;
+            margin-bottom: 2rem;
+        }
+        
+        .form-section h3 {
+            grid-column: 1 / -1;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-section .form-group {
+            margin-bottom: 0;
+        }
+        
+        .form-section .form-group label {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #6B4423;
+        }
+        
+        .form-section input[type="text"],
+        .form-section input[type="number"],
+        .form-section select,
+        .form-section textarea {
+            font-size: 1rem;
+            padding: 0.75rem;
+            line-height: 1.5;
+            border: 1px solid #ddd;
+            border-radius: 0.3rem;
+            width: 100%;
+        }
+        
+        .form-section textarea {
+            min-height: 150px;
+        }
+        
+        .form-section:nth-of-type(3) {
+            grid-template-columns: 1fr;
+        }
+        
+        .image-upload p {
+            font-size: 1rem;
+        }
+        
+        .image-upload p:first-child {
+            font-size: 1.1rem;
+        }
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .btn-submit {
+            flex: 1;
+            padding: 1rem;
+            background-color: #8B6F47;
+            color: white;
+            border: none;
+            border-radius: 0.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-submit:hover {
+            background-color: #6B4423;
+        }
+        .btn-cancel {
+            flex: 1;
+            padding: 1rem;
+            background-color: #D4A574;
+            color: #6B4423;
+            border: none;
+            border-radius: 0.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+        }
+        .btn-cancel:hover {
+            background-color: #8B6F47;
+            color: white;
         }
     </style>
 </head>
@@ -208,8 +293,8 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
                         <div class="form-group">
                             <label for="foto_utama">Foto Utama</label>
                             <?php if ($product['foto_utama']): ?>
-                            <div style="margin-bottom: 1rem;">
-                                <img src="<?php echo PRODUCT_IMG_DIR . $product['foto_utama']; ?>" alt="" style="max-width: 200px; border-radius: 0.3rem;">
+                            <div class="mb-2">
+                                <img src="<?php echo PRODUCT_IMG_URL . $product['foto_utama']; ?>" alt="" style="max-width: 200px; border-radius: 0.3rem;">
                                 <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Upload foto baru untuk mengganti</p>
                             </div>
                             <?php endif; ?>
@@ -219,18 +304,6 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
                             </div>
                             <input type="file" id="foto_utama" name="foto_utama" accept="image/*" onchange="previewImage(this)">
                             <div id="mainImagePreview" class="image-preview"></div>
-                        </div>
-
-                     
-
-                        <div class="form-group">
-                            <label for="photos">Tambah Foto Baru</label>
-                            <div class="image-upload" onclick="document.getElementById('photos').click()">
-                                <p>📷 Klik untuk upload atau drag file di sini</p>
-                                <p style="color: #666; font-size: 0.9rem;">Bisa upload multiple files</p>
-                            </div>
-                            <input type="file" id="photos" name="photos[]" accept="image/*" multiple onchange="previewImages(this)">
-                            <div id="additionalImagesPreview" class="image-preview"></div>
                         </div>
                     </div>
 
@@ -257,24 +330,6 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
                     preview.appendChild(div);
                 };
                 reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function previewImages(input) {
-            const preview = document.getElementById('additionalImagesPreview');
-            preview.innerHTML = '';
-            
-            if (input.files) {
-                for (let i = 0; i < input.files.length; i++) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const div = document.createElement('div');
-                        div.className = 'preview-item';
-                        div.innerHTML = '<img src="' + e.target.result + '" alt="Preview">';
-                        preview.appendChild(div);
-                    };
-                    reader.readAsDataURL(input.files[i]);
-                }
             }
         }
     </script>

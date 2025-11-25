@@ -1,8 +1,8 @@
 <style>
     .admin-sidebar {
         width: 250px;
-        background-color: var(--dark);
-        color: white;
+        background-color: #6B4423;
+        color: #F5E6D3;
         padding: 2rem 0;
         min-height: calc(100vh - 70px);
     }
@@ -17,19 +17,20 @@
     .sidebar-menu a {
         display: block;
         padding: 1rem 1.5rem;
-        color: white;
+        color: #F5E6D3;
         text-decoration: none;
         transition: all 0.3s;
         border-left: 4px solid transparent;
     }
     .sidebar-menu a:hover,
     .sidebar-menu a.active {
-        background-color: var(--primary);
-        border-left-color: var(--secondary);
+        background-color: #8B6F47;
+        border-left-color: #D4A574;
+        color: #FFFFFF;
     }
     .sidebar-divider {
         height: 1px;
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: rgba(255, 255, 255, 0.2);
         margin: 1rem 0;
     }
 </style>
