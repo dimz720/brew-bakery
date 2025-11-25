@@ -1,36 +1,71 @@
 <footer class="footer">
     <div class="footer-container">
+        <!-- ← PERBAIKAN: Hanya tentang Brew Bakery -->
         <div class="footer-section">
             <h3>🍞 Brew Bakery</h3>
-            <p>Kami menjual roti dan pastry berkualitas tinggi dengan cita rasa istimewa. Diproduksi fresh setiap hari dengan bahan-bahan pilihan terbaik untuk memberikan pengalaman terbaik bagi setiap pelanggan setia kami.</p>
+            <p>Kami menjual roti dan pastry berkualitas tinggi dengan cita rasa istimewa. Diproduksi fresh setiap hari dengan bahan-bahan pilihan terbaik.</p>
         </div>
+
+        <!-- ← PERBAIKAN: Kontak & Jam Buka -->
         <div class="footer-section">
-            <h3>📚 Menu</h3>
+            <h3> Hubungi Kami</h3>
             <ul>
-                <li><a href="<?php echo BASE_URL; ?>">Beranda</a></li>
-                <li><a href="<?php echo CUSTOMER_URL; ?>shop.php">Belanja</a></li>
-                <li><a href="<?php echo CUSTOMER_URL; ?>articles.php">Artikel</a></li>
-                <li><a href="<?php echo AUTH_URL; ?>login-customer.php">Login</a></li>
+                <li>📞 <a href="tel:+6281234567890">+62 812-3456-7890</a></li>
+                <li>📧 <a href="mailto:info@brewbakery.com">info@brewbakery.com</a></li>
+                <li>📍 Jl. Ketintang No.156, Ketintang</li>
+                <li style="font-size: 0.85rem; opacity: 0.85;">Gayungan, Surabaya, Jawa Timur</li>
             </ul>
         </div>
+
+        <!-- ← PERBAIKAN: Jam Buka Lebih Rapi -->
         <div class="footer-section">
-            <h3>☎️ Hubungi Kami</h3>
-            <ul>
-                <li>📞 +62 812-3456-7890</li>
-                <li>📧 info@brewbakery.com</li>
-                <li>📍 Jl. Bakery No. 123, Jakarta</li>
-            </ul>
+            <h3> Jam Buka</h3>
+            <div class="opening-hours">
+                <div class="hours-item">
+                    <span class="day">Senin - Jumat</span>
+                    <span class="time">09:00 - 20:00</span>
+                </div>
+                <div class="hours-item">
+                    <span class="day">Sabtu - Minggu</span>
+                    <span class="time">09:00 - 21:00</span>
+                </div>
+            </div>
         </div>
+
+        <!-- ← PERBAIKAN: Maps Lebih Kecil & Compact -->
         <div class="footer-section">
-            <h3>🌐 Media Sosial</h3>
+
+
+        <h3> Lokasi</h3>
+            <div class="maps-wrapper">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3958.123456789!2d112.71234567!3d-7.28765432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7c8b5c6d7a89f%3A0x1234567890abcdef!2sJl.%20Ketintang%20No.156%2C%20Ketintang%2C%20Kec.%20Gayungan%2C%20Surabaya%2C%20Jawa%20Timur%2060231!5e0!3m2!1sid!2sid!4v1234567890123" 
+                    width="100%" 
+                    height="150" 
+                    style="border:0; border-radius: 0.5rem;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+                <a href="https://www.google.com/maps/search/Jl.+Ketintang+No.156" 
+                   target="_blank" 
+                   class="maps-link">
+                    🗺️ Buka Google Maps
+                </a>
+            </div>
+        </div>
+
+        <!-- ← PERBAIKAN: Media Sosial -->
+        <div class="footer-section">
+            <h3> Ikuti Kami</h3>
             <div class="social-links">
-                <a href="https://www.facebook.com" target="_blank" title="Facebook">
+                <a href="https://www.facebook.com" target="_blank" title="Facebook" aria-label="Facebook">
                     <i class="fab fa-facebook"></i>
                 </a>
-                <a href="https://www.instagram.com" target="_blank" title="Instagram">
+                <a href="https://www.instagram.com" target="_blank" title="Instagram" aria-label="Instagram">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="https://wa.me/6281234567890" target="_blank" title="WhatsApp">
+                <a href="https://wa.me/6281234567890" target="_blank" title="WhatsApp" aria-label="WhatsApp">
                     <i class="fab fa-whatsapp"></i>
                 </a>
             </div>
@@ -42,16 +77,15 @@
     </div>
 </footer>
 
-<!-- ← PERBAIKAN: Back to Top Button - Z-index tinggi & smooth scroll -->
+<!-- ← Back to Top Button -->
 <button id="backToTopBtn" title="Kembali ke atas" aria-label="Back to top">
     <i class="fas fa-arrow-up"></i>
 </button>
 
 <script>
-    // Back to Top Button - Optimized
+    // Back to Top Button
     const backToTopBtn = document.getElementById('backToTopBtn');
 
-    // Debounce scroll event untuk performance
     let ticking = false;
     window.addEventListener('scroll', () => {
         if (!ticking) {
@@ -67,18 +101,14 @@
         }
     });
 
-    // Smooth scroll to top dengan fallback
     backToTopBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        
-        // Cek jika browser support smooth scroll
         if ('scrollBehavior' in document.documentElement.style) {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             });
         } else {
-            // Fallback untuk browser lama
             let scrollPos = window.pageYOffset;
             const timer = setInterval(() => {
                 if (scrollPos <= 0) clearInterval(timer);
@@ -88,7 +118,6 @@
         }
     });
 
-    // Keyboard support (tombol End untuk langsung ke atas)
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Home' && backToTopBtn.classList.contains('show')) {
             backToTopBtn.click();
@@ -98,7 +127,6 @@
 
 <style>
     :root {
-        /* ← PERBAIKAN: Bright & Warm Bakery Colors */
         --primary: #F4E4C1;
         --secondary: #E8D4B8;
         --accent: #FFF9F0;
@@ -107,13 +135,13 @@
         --text-dark: #2D2D2D;
         --text-light: #FFFFFF;
         --bg-light: #FFFBF7;
-        --border: #F0E6D8;
+        --border: #E6CEB3;
     }
 
     .footer {
-        background: linear-gradient(135deg, #F4E4C1 0%, #E8D4B8 100%);
-        color: var(--text-dark);
-        padding: 3rem 0 1rem;
+        background: linear-gradient(135deg, #D4A574 0%, #C9915D 100%);
+        color: white;
+        padding: 2.5rem 0 1rem;
         margin-top: 4rem;
         border-top: 3px solid var(--gold);
     }
@@ -123,109 +151,157 @@
         margin: 0 auto;
         padding: 0 2rem;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 2.5rem;
-        margin-bottom: 2.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
     }
 
     .footer-section h3 {
-        color: var(--honey);
-        margin-bottom: 1.2rem;
-        font-size: 1.1rem;
+        color: white;
+        margin-bottom: 1rem;
+        font-size: 1rem;
         font-weight: 700;
     }
 
     .footer-section p {
-        font-size: 0.95rem;
-        line-height: 1.7;
-        color: rgba(45, 45, 45, 0.8);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.9);
     }
 
     .footer-section ul {
         list-style: none;
+        margin: 0;
+        padding: 0;
     }
 
     .footer-section ul li {
-        margin-bottom: 0.75rem;
-        font-size: 0.95rem;
+        margin-bottom: 0.6rem;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.9);
     }
 
     .footer-section a {
-        color: var(--text-dark);
+        color: rgba(255, 255, 255, 0.9);
         text-decoration: none;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
+        transition: color 0.3s ease;
     }
 
     .footer-section a:hover {
-        color: var(--gold);
-        transform: translateX(3px);
+        color: white;
     }
 
+    /* Opening Hours */
+    .opening-hours {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 0.4rem;
+        padding: 0.75rem;
+        backdrop-filter: blur(8px);
+    }
+
+    .hours-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        color: white;
+        font-size: 0.85rem;
+    }
+
+    .hours-item:last-child {
+        border-bottom: none;
+    }
+
+    .hours-item .day {
+        font-weight: 600;
+    }
+
+    .hours-item .time {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.25rem 0.6rem;
+        border-radius: 2rem;
+        font-weight: 700;
+        font-size: 0.75rem;
+    }
+
+    /* Maps */
+    .maps-wrapper {
+        position: relative;
+        border-radius: 0.4rem;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .maps-wrapper iframe {
+        width: 100% !important;
+        height: 150px !important;
+        display: block;
+    }
+
+    .maps-link {
+        display: inline-block;
+        margin-top: 0.75rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border-radius: 0.4rem;
+        font-weight: 600;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .maps-link:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+    }
+
+    /* Social Links */
     .social-links {
         display: flex;
-        gap: 1rem;
-        margin-top: 1rem;
+        gap: 0.75rem;
+        margin-top: 0.75rem;
     }
 
     .social-links a {
-        width: 45px;
-        height: 45px;
-        background: rgba(212, 165, 116, 0.2);
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.2);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         transition: all 0.3s ease;
-        border: 1px solid rgba(212, 165, 116, 0.3);
-        color: var(--honey);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
     }
 
     .social-links a:hover {
-        background: var(--gold);
-        color: white;
-        transform: translateY(-3px);
-        border-color: var(--gold);
+        background: white;
+        color: var(--gold);
+        transform: translateY(-2px);
+        border-color: white;
     }
 
     .footer-bottom {
         text-align: center;
-        padding-top: 1.5rem;
-        border-top: 1px solid rgba(0, 0, 0, 0.1);
-        color: rgba(45, 45, 45, 0.7);
-        font-size: 0.9rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.85rem;
     }
 
-    @media (max-width: 768px) {
-        .footer-container {
-            grid-template-columns: 1fr;
-            gap: 2rem;
-            padding: 0 1rem;
-        }
-
-        .social-links {
-            gap: 0.75rem;
-        }
-
-        .social-links a {
-            width: 40px;
-            height: 40px;
-            font-size: 1rem;
-        }
-    }
-
-    /* ← TAMBAHAN: Back to Top Button Styles */
+    /* Back to Top Button */
     #backToTopBtn {
         position: fixed;
         bottom: 2rem;
         right: 2rem;
         width: 50px;
         height: 50px;
-        background: var(--gold);
-        color: var(--text-light);
+        background: linear-gradient(135deg, var(--gold) 0%, var(--honey) 100%);
+        color: white;
         border: none;
         border-radius: 50%;
         display: flex;
@@ -233,8 +309,8 @@
         justify-content: center;
         font-size: 1.5rem;
         cursor: pointer;
-        z-index: 1000;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
         transition: all 0.3s ease;
         opacity: 0;
         pointer-events: none;
@@ -247,7 +323,54 @@
 
     #backToTopBtn:hover {
         transform: translateY(-3px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 6px 18px rgba(212, 165, 116, 0.4);
+    }
+
+    @media (max-width: 768px) {
+        .footer-container {
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            padding: 0 1rem;
+        }
+
+        .footer-section h3 {
+            font-size: 0.95rem;
+        }
+
+        .footer-section p {
+            font-size: 0.85rem;
+        }
+
+        .maps-wrapper iframe {
+            height: 120px !important;
+        }
+
+        #backToTopBtn {
+            width: 45px;
+            height: 45px;
+            font-size: 1.2rem;
+            bottom: 1.5rem;
+            right: 1.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .footer-container {
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+        }
+
+        .maps-wrapper iframe {
+            height: 120px !important;
+        }
+
+        #backToTopBtn {
+            width: 40px;
+            height: 40px;
+            font-size: 1rem;
+            bottom: 1rem;
+            right: 1rem;
+        }
     }
 </style>
 
