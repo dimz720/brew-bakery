@@ -257,7 +257,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                         <div class="item-info">
                             <div class="item-name"><?php echo htmlspecialchars($item['nama']); ?></div>
-                            <div class="item-price"><?php echo formatCurrency($item['harga']); ?> per item</div>
+                            <!-- PERBAIKAN: Tampilkan harga dengan diskon -->
+                            <div class="item-price">
+                                <?php 
+                                $priceInfo = formatPriceWithDiscount($item['harga'], $item['diskon_tipe'], $item['diskon_nilai'], $item['diskon_aktif']);
+                                if ($priceInfo['savings'] > 0): 
+                                ?>
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+                                        <span style="text-decoration: line-through; color: #999;">
+                                            <?php echo formatCurrency($priceInfo['original']); ?>
+                                        </span>
+                                        <span style="color: #28a745; font-weight: 900;">
+                                            <?php echo formatCurrency($priceInfo['discounted']); ?>
+                                        </span>
+                                    </div>
+                                <?php else: ?>
+                                    <?php echo formatCurrency($priceInfo['original']); ?> per item
+                                <?php endif; ?>
+                            </div>
                             <div class="qty-controls">
                                 <form method="POST" id="form-<?php echo $item['id']; ?>" style="display: contents;">
                                     <input type="hidden" name="action" value="update">
@@ -270,7 +287,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </form>
                             </div>
                         </div>
-                        <div class="item-total"><?php echo formatCurrency($item['harga'] * $item['jumlah']); ?></div>
+                        <!-- PERBAIKAN: Total item dengan diskon -->
+                        <div class="item-total">
+                            <?php 
+                            $priceInfo = formatPriceWithDiscount($item['harga'], $item['diskon_tipe'], $item['diskon_nilai'], $item['diskon_aktif']);
+                            echo formatCurrency($priceInfo['discounted'] * $item['jumlah']);
+                            ?>
+                        </div>
                         <form method="POST" style="margin: 0;">
                             <input type="hidden" name="action" value="remove">
                             <input type="hidden" name="cart_id" value="<?php echo $item['id']; ?>">

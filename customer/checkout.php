@@ -27,7 +27,15 @@ if ($direct_checkout && !$temp_cart_item) {
 if ($direct_checkout && $temp_cart_item) {
     // Gunakan temporary cart item
     $cart_items = [$temp_cart_item];
-    $subtotal = $temp_cart_item['harga'] * $temp_cart_item['jumlah'];
+    // PERBAIKAN: Hitung subtotal dengan diskon
+    $temp_product = getProductById($temp_cart_item['product_id']);
+    $item_price = calculateDiscountedPrice(
+        $temp_product['harga'], 
+        $temp_product['diskon_tipe'], 
+        $temp_product['diskon_nilai'], 
+        $temp_product['diskon_aktif']
+    );
+    $subtotal = $item_price * $temp_cart_item['jumlah'];
 } else {
     // Gunakan cart normal
     $cart_items = getCartItems($customer_id);
@@ -36,7 +44,17 @@ if ($direct_checkout && $temp_cart_item) {
         redirect(CUSTOMER_URL . 'cart.php');
     }
     
-    $subtotal = getCartTotal($customer_id);
+    // PERBAIKAN: Hitung subtotal dengan diskon untuk setiap item
+    $subtotal = 0;
+    foreach ($cart_items as $item) {
+        $discounted_price = calculateDiscountedPrice(
+            $item['harga'],
+            $item['diskon_tipe'],
+            $item['diskon_nilai'],
+            $item['diskon_aktif']
+        );
+        $subtotal += $discounted_price * $item['jumlah'];
+    }
 }
 
 $ongkir = 0;

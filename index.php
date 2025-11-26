@@ -761,7 +761,27 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY nama LIMIT 5")->fe
                     <?php if ($product['review_count'] > 0): ?>
                     <div class="product-rating">⭐ <?php echo round($product['avg_rating'], 1); ?> (<?php echo $product['review_count']; ?> ulasan)</div>
                     <?php endif; ?>
-                    <div class="product-price"><?php echo formatCurrency($product['harga']); ?></div>
+                    <!-- MODIFIKASI: Tampilkan harga dengan diskon -->
+                    <div class="product-price">
+                        <?php 
+                        $priceInfo = formatPriceWithDiscount($product['harga'], $product['diskon_tipe'], $product['diskon_nilai'], $product['diskon_aktif']);
+                        if ($priceInfo['savings'] > 0): 
+                        ?>
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <span style="text-decoration: line-through; color: #999; font-size: 0.9rem;">
+                                    <?php echo formatCurrency($priceInfo['original']); ?>
+                                </span>
+                                <span style="color: #28a745; font-weight: 900;">
+                                    <?php echo formatCurrency($priceInfo['discounted']); ?>
+                                </span>
+                                <span style="background: #dc3545; color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.8rem; font-weight: 700;">
+                                    <?php echo $priceInfo['discount_display']; ?>
+                                </span>
+                            </div>
+                        <?php else: ?>
+                            <?php echo formatCurrency($priceInfo['original']); ?>
+                        <?php endif; ?>
+                    </div>
                     <a href="<?php echo isset($_SESSION['customer_id']) ? CUSTOMER_URL . 'product-detail.php?id=' . $product['id'] : AUTH_URL . 'login-customer.php'; ?>" class="btn-product">Lihat Detail</a>
                 </div>
             </div>

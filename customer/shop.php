@@ -361,7 +361,27 @@ $products = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                             </div>
                             <?php endif; ?>
                             
-                            <div class="product-price"><?php echo formatCurrency($product['harga']); ?></div>
+                            <!-- MODIFIKASI: Harga dengan diskon -->
+                            <div class="product-price">
+                                <?php 
+                                $priceInfo = formatPriceWithDiscount($product['harga'], $product['diskon_tipe'], $product['diskon_nilai'], $product['diskon_aktif']);
+                                if ($priceInfo['savings'] > 0): 
+                                ?>
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <span style="text-decoration: line-through; color: #999; font-size: 0.9rem;">
+                                            <?php echo formatCurrency($priceInfo['original']); ?>
+                                        </span>
+                                        <span style="color: #28a745; font-weight: 900;">
+                                            <?php echo formatCurrency($priceInfo['discounted']); ?>
+                                        </span>
+                                        <span style="background: #dc3545; color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.8rem; font-weight: 700;">
+                                            <?php echo $priceInfo['discount_display']; ?>
+                                        </span>
+                                    </div>
+                                <?php else: ?>
+                                    <?php echo formatCurrency($priceInfo['original']); ?>
+                                <?php endif; ?>
+                            </div>
                             <div class="product-stock">
                                 <?php if ($product['stok'] > 10): ?>
                                     <span class="stock-available">✓ Stok tersedia (<?php echo $product['stok']; ?>)</span>

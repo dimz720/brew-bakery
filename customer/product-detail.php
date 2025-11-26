@@ -394,7 +394,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         
                       
                         
-                        <div class="product-price"><?php echo formatCurrency($product['harga']); ?></div>
+                        <!-- MODIFIKASI: Harga dengan diskon -->
+                        <div class="product-price">
+                            <?php 
+                            $priceInfo = formatPriceWithDiscount($product['harga'], $product['diskon_tipe'], $product['diskon_nilai'], $product['diskon_aktif']);
+                            if ($priceInfo['savings'] > 0): 
+                            ?>
+                                <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                                    <div>
+                                        <div style="text-decoration: line-through; color: #999; font-size: 1rem; margin-bottom: 0.25rem;">
+                                            <?php echo formatCurrency($priceInfo['original']); ?>
+                                        </div>
+                                        <div style="color: #28a745; font-weight: 900; font-size: 2rem;">
+                                            <?php echo formatCurrency($priceInfo['discounted']); ?>
+                                        </div>
+                                    </div>
+                                    <div style="background: #dc3545; color: white; padding: 0.75rem 1rem; border-radius: 0.5rem; font-weight: 700; text-align: center;">
+                                        <div style="font-size: 1.5rem;"><?php echo $priceInfo['discount_display']; ?></div>
+                                        <div style="font-size: 0.85rem; opacity: 0.9;">Hemat <?php echo formatCurrency($priceInfo['savings']); ?></div>
+                                    </div>
+                                </div>
+                            <?php else: ?>
+                                <?php echo formatCurrency($priceInfo['original']); ?>
+                            <?php endif; ?>
+                        </div>
                         
                         <div class="product-stock <?php echo $product['stok'] > 10 ? 'stock-available' : ($product['stok'] > 0 ? 'stock-low' : 'stock-out'); ?>">
                             <?php if ($product['stok'] > 10): ?>

@@ -32,6 +32,7 @@ if ($product_id <= 0 || $rating < 1 || $rating > 5) {
 $purchase_query = "SELECT o.id FROM order_items oi 
                    JOIN orders o ON oi.order_id = o.id 
                    WHERE oi.product_id = ? AND o.customer_id = ? AND o.status = 'selesai'
+                   ORDER BY o.id DESC
                    LIMIT 1";
 $stmt = $conn->prepare($purchase_query);
 $stmt->bind_param("ii", $product_id, $customer_id);
@@ -42,32 +43,32 @@ if (!$purchase) {
     jsonResponse('error', 'Anda hanya bisa memberi ulasan untuk produk yang telah dibeli dan pesanannya selesai');
 }
 
-// Check if already reviewed
-$check_query = "SELECT id FROM reviews WHERE product_id = ? AND customer_id = ?";
+$order_id = $purchase['id'];
+
+// PERBAIKAN: Check if already reviewed untuk order_id YANG SAMA, bukan kombinasi product_id + customer_id
+// Ini memungkinkan customer memberi review pada pesanan berbeda untuk produk yang sama
+$check_query = "SELECT id FROM reviews WHERE product_id = ? AND order_id = ?";
 $stmt = $conn->prepare($check_query);
-$stmt->bind_param("ii", $product_id, $customer_id);
+$stmt->bind_param("ii", $product_id, $order_id);
 $stmt->execute();
 
 if ($stmt->get_result()->num_rows > 0) {
-    jsonResponse('error', 'Anda sudah memberikan ulasan untuk produk ini');
+    jsonResponse('error', 'Anda sudah memberikan ulasan untuk produk ini di pesanan ini');
 }
 
-$order_id = $purchase['id'];
-
 // Insert review
-// FIX: Pastikan urutan parameter sesuai dengan tipe string
 $insert_query = "INSERT INTO reviews (product_id, customer_id, order_id, rating, ulasan) VALUES (?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($insert_query);
 
+// FIX: Type string yang benar
 // Urutan: product_id(i), customer_id(i), order_id(i), rating(i), ulasan(s)
-// Tipe string: "iiis" = 4 karakter untuk 5 variabel = ERROR!
-// Seharusnya: "iiiis" = 5 karakter untuk 5 variabel
+// Type string: "iiiis" = 5 karakter untuk 5 variabel ✓
 $stmt->bind_param("iiiis", $product_id, $customer_id, $order_id, $rating, $ulasan);
 
 if ($stmt->execute()) {
     // Jika form submission, redirect dengan success
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        header("Location: " . CUSTOMER_URL . "orders/detail.php?id=" . $order_id . "&success=Review berhasil ditambahkan!");
+        header("Location: " . CUSTOMER_URL . "orders/detail.php?id=" . $order_id . "&success=Review%20berhasil%20ditambahkan!");
         exit();
     }
     jsonResponse('success', 'Ulasan berhasil ditambahkan');

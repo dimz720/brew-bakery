@@ -44,7 +44,9 @@ function getOrderById($id) {
 
 function getCartItems($customer_id) {
     global $conn;
-    $query = "SELECT c.id, c.product_id, c.jumlah, p.nama, p.harga, p.stok, p.foto_utama 
+    // PERBAIKAN: Tambah kolom diskon dari tabel products
+    $query = "SELECT c.id, c.product_id, c.jumlah, p.nama, p.harga, p.stok, p.foto_utama,
+                     p.diskon_tipe, p.diskon_nilai, p.diskon_aktif
               FROM carts c 
               JOIN products p ON c.product_id = p.id 
               WHERE c.customer_id = ?";
@@ -56,7 +58,17 @@ function getCartItems($customer_id) {
 
 function getCartTotal($customer_id) {
     global $conn;
-    $query = "SELECT SUM(c.jumlah * p.harga) as total 
+    // PERBAIKAN: Hitung total dengan mempertimbangkan diskon
+    $query = "SELECT SUM(
+                CASE 
+                    WHEN p.diskon_aktif = 1 THEN
+                        CASE 
+                            WHEN p.diskon_tipe = 'persentase' THEN c.jumlah * (p.harga - (p.harga * (p.diskon_nilai / 100)))
+                            ELSE c.jumlah * (p.harga - p.diskon_nilai)
+                        END
+                    ELSE c.jumlah * p.harga
+                END
+              ) as total 
               FROM carts c 
               JOIN products p ON c.product_id = p.id 
               WHERE c.customer_id = ?";
@@ -300,5 +312,57 @@ function uploadImage($file, $directory = 'products/') {
     error_log("uploadImage SUCCESS: File uploaded - $filename");
 
     return $filename;
+}
+
+/**
+ * Hitung harga setelah diskon (UPDATED)
+ */
+function calculateDiscountedPrice($harga, $diskon_tipe, $diskon_nilai, $diskon_aktif) {
+    if (!$diskon_aktif || !$diskon_nilai || $diskon_nilai <= 0) {
+        return $harga;
+    }
+    
+    if ($diskon_tipe === 'persentase') {
+        // Diskon persentase
+        if ($diskon_nilai > 100) $diskon_nilai = 100;
+        return $harga - ($harga * ($diskon_nilai / 100));
+    } else {
+        // Diskon nominal
+        $discounted = $harga - $diskon_nilai;
+        return $discounted > 0 ? $discounted : 0;
+    }
+}
+
+/**
+ * Format harga dengan diskon (UPDATED)
+ */
+function formatPriceWithDiscount($harga, $diskon_tipe, $diskon_nilai, $diskon_aktif) {
+    if (!$diskon_aktif || !$diskon_nilai || $diskon_nilai <= 0) {
+        return [
+            'original' => $harga,
+            'discounted' => $harga,
+            'discount_type' => null,
+            'discount_value' => 0,
+            'savings' => 0
+        ];
+    }
+    
+    $discountedPrice = calculateDiscountedPrice($harga, $diskon_tipe, $diskon_nilai, $diskon_aktif);
+    $savings = $harga - $discountedPrice;
+    
+    if ($diskon_tipe === 'persentase') {
+        $display = '-' . $diskon_nilai . '%';
+    } else {
+        $display = '-Rp ' . number_format($diskon_nilai, 0, ',', '.');
+    }
+    
+    return [
+        'original' => $harga,
+        'discounted' => $discountedPrice,
+        'discount_type' => $diskon_tipe,
+        'discount_value' => $diskon_nilai,
+        'discount_display' => $display,
+        'savings' => $savings
+    ];
 }
 ?>

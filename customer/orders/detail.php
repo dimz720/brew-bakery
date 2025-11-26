@@ -502,8 +502,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 
                 <div style="max-height: 400px; overflow-y: auto;">
                     <?php foreach ($items as $item): 
-                        // Check if already reviewed
-                        $review_check = $conn->query("SELECT id FROM reviews WHERE product_id = {$item['product_id']} AND customer_id = $customer_id")->fetch_assoc();
+                        // Check if already reviewed - PERBAIKAN: Gunakan order_id, bukan hanya product_id
+                        $review_check = $conn->query("SELECT id FROM reviews WHERE product_id = {$item['product_id']} AND order_id = {$order_id}")->fetch_assoc();
                         $already_reviewed = !empty($review_check);
                     ?>
                     <div style="background-color: var(--light); padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1rem; border-left: 4px solid var(--primary);">

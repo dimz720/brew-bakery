@@ -310,63 +310,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <script>
-        const fileUpload = document.getElementById('fileUpload');
-        const fileInput = document.getElementById('bukti_bayar');
+   <script>
+    const fileUpload = document.getElementById('fileUpload');
+    const fileInput = document.getElementById('bukti_bayar');
 
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            fileUpload.addEventListener(eventName, preventDefaults, false);
-        });
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        fileUpload.addEventListener(eventName, preventDefaults, false);
+    });
 
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
 
-        ['dragenter', 'dragover'].forEach(eventName => {
-            fileUpload.addEventListener(eventName, highlight, false);
-        });
+    ['dragenter', 'dragover'].forEach(eventName => {
+        fileUpload.addEventListener(eventName, highlight, false);
+    });
 
-        ['dragleave', 'drop'].forEach(eventName => {
-            fileUpload.addEventListener(eventName, unhighlight, false);
-        });
+    ['dragleave', 'drop'].forEach(eventName => {
+        fileUpload.addEventListener(eventName, unhighlight, false);
+    });
 
-        function highlight(e) {
-            fileUpload.classList.add('dragover');
-        }
+    function highlight(e) {
+        fileUpload.classList.add('dragover');
+    }
 
-        function unhighlight(e) {
-            fileUpload.classList.remove('dragover');
-        }
+    function unhighlight(e) {
+        fileUpload.classList.remove('dragover');
+    }
 
-        fileUpload.addEventListener('drop', handleDrop, false);
+    fileUpload.addEventListener('drop', handleDrop, false);
 
-        function handleDrop(e) {
-            let dt = e.dataTransfer;
-            let files = dt.files;
-            fileInput.files = files;
-            previewFile(fileInput);
-        }
+    function handleDrop(e) {
+        let dt = e.dataTransfer;
+        let files = dt.files;
+        fileInput.files = files;
+        previewFile(fileInput);
+    }
 
-        function previewFile(input) {
-            const preview = document.getElementById('preview');   reader.readAsDataURL(input.files[0]);
-            preview.innerHTML = '';            }
+    function previewFile(input) {
+        const preview = document.getElementById('preview');
+        preview.innerHTML = '';
+        
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
             
-            if (input.files && input.files[0]) {cript>
-                const reader = new FileReader();
-                reader.onload = function(e) {    <?php include __DIR__ . '/../includes/footer.php'; ?>
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                preview.appendChild(img);
+            };
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-</html></body>    <?php include __DIR__ . '/../includes/footer.php'; ?>    </script>        }            }                reader.readAsDataURL(input.files[0]);                };                    preview.appendChild(img);                    img.src = e.target.result;                    const img = document.createElement('img');</body>
+<?php include __DIR__ . '/../includes/footer.php'; ?>
+</body>
 </html>

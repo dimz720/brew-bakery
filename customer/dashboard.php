@@ -916,7 +916,24 @@ $banners = [
                         <div class="product-rating">⭐ <?php echo round($product['avg_rating'], 1); ?> (<?php echo $product['review_count']; ?>)</div>
                         <?php endif; ?>
                         <div class="product-footer">
-                            <div class="product-price"><?php echo formatCurrency($product['harga']); ?></div>
+                            <!-- MODIFIKASI: Harga dengan diskon -->
+                            <div class="product-price">
+                                <?php 
+                                $priceInfo = formatPriceWithDiscount($product['harga'], $product['diskon_tipe'], $product['diskon_nilai'], $product['diskon_aktif']);
+                                if ($priceInfo['savings'] > 0): 
+                                ?>
+                                    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                                        <span style="text-decoration: line-through; color: #999; font-size: 0.85rem;">
+                                            <?php echo formatCurrency($priceInfo['original']); ?>
+                                        </span>
+                                        <span style="color: #28a745; font-weight: 900;">
+                                            <?php echo formatCurrency($priceInfo['discounted']); ?>
+                                        </span>
+                                    </div>
+                                <?php else: ?>
+                                    <?php echo formatCurrency($priceInfo['original']); ?>
+                                <?php endif; ?>
+                            </div>
                             <button class="add-to-cart-btn" onclick="window.location.href='<?php echo CUSTOMER_URL; ?>product-detail.php?id=<?php echo $product['id']; ?>'">
                                 <i class="fas fa-eye"></i>
                             </button>

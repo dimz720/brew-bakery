@@ -17,11 +17,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $harga = (float)($_POST['harga'] ?? 0);
     $stok = (int)($_POST['stok'] ?? 0);
     $category_id = (int)($_POST['category_id'] ?? 0);
+    
+    // UPDATED: Ambil dari form baru
+    $diskon_tipe = sanitize($_POST['diskon_tipe'] ?? 'persentase');
+    $diskon_nilai = (float)($_POST['diskon_nilai'] ?? 0);
+    $diskon_aktif = isset($_POST['diskon_aktif']) ? 1 : 0;
 
     if (!$category_id || empty($nama) || $harga <= 0 || $stok < 0) {
         $error = 'Semua field harus diisi dengan benar!';
     } else {
-        // Handle photo upload - PERBAIKAN
+        // Handle photo upload
         $foto_utama = '';
         if (isset($_FILES['foto_utama']) && $_FILES['foto_utama']['error'] === UPLOAD_ERR_OK) {
             // Debug upload
@@ -61,10 +66,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (empty($error)) {
-            $insert_query = "INSERT INTO products (category_id, nama, deskripsi, harga, stok, foto_utama) 
-                            VALUES (?, ?, ?, ?, ?, ?)";
+            // UPDATED: Gunakan kolom baru
+            $insert_query = "INSERT INTO products (category_id, nama, deskripsi, harga, stok, diskon_tipe, diskon_nilai, diskon_aktif, foto_utama) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($insert_query);
-            $stmt->bind_param("issdis", $category_id, $nama, $deskripsi, $harga, $stok, $foto_utama);
+            $stmt->bind_param("issdissii", $category_id, $nama, $deskripsi, $harga, $stok, $diskon_tipe, $diskon_nilai, $diskon_aktif, $foto_utama);
             
             if ($stmt->execute()) {
                 $success = 'Produk berhasil ditambahkan!';
@@ -277,6 +283,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
 
                     <div class="form-section">
+                        <h3>Diskon (Opsional)</h3>
+                        <div class="form-group">
+                            <label for="diskon_aktif">
+                                <input type="checkbox" id="diskon_aktif" name="diskon_aktif"> Aktifkan Diskon
+                            </label>
+                        </div>
+
+                        <div class="form-group" id="diskon-fields" style="display: none;">
+                            <label for="diskon_tipe">Tipe Diskon *</label>
+                            <select id="diskon_tipe" name="diskon_tipe" onchange="updateDiskonLabel()">
+                                <option value="persentase">Persentase (%)</option>
+                                <option value="nominal">Nominal (Rp)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="diskon-nilai-group" style="display: none;">
+                            <label for="diskon_nilai">Nilai Diskon <span id="diskon-label">(%)</span> *</label>
+                            <input type="number" id="diskon_nilai" name="diskon_nilai" min="0" step="0.01" placeholder="Contoh: 10">
+                            <small style="color: #666; display: block; margin-top: 0.3rem;" id="diskon-preview">
+                                Harga diskon: Rp 0
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
                         <h3>Foto Produk</h3>
                         <div class="form-group">
                             <label for="foto_utama">Foto Utama</label>
@@ -332,6 +363,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
         }
+
+        const diskonAktifCheckbox = document.getElementById('diskon_aktif');
+        const diskonFields = document.getElementById('diskon-fields');
+        const diskonNilaiGroup = document.getElementById('diskon-nilai-group');
+        const hargaInput = document.getElementById('harga');
+        const diskonTipeSelect = document.getElementById('diskon_tipe');
+        const diskonNilaiInput = document.getElementById('diskon_nilai');
+
+        function toggleDiskonFields() {
+            if (diskonAktifCheckbox.checked) {
+                diskonFields.style.display = 'block';
+                diskonNilaiGroup.style.display = 'block';
+            } else {
+                diskonFields.style.display = 'none';
+                diskonNilaiGroup.style.display = 'none';
+            }
+        }
+
+        function updateDiskonLabel() {
+            const label = diskonTipeSelect.value === 'persentase' ? '(%)' : '(Rp)';
+            document.getElementById('diskon-label').textContent = label;
+            updateDiskonPreview();
+        }
+
+        function updateDiskonPreview() {
+            const harga = parseFloat(hargaInput.value) || 0;
+            const diskonNilai = parseFloat(diskonNilaiInput.value) || 0;
+            const diskonTipe = diskonTipeSelect.value;
+
+            let discounted = harga;
+            if (diskonTipe === 'persentase') {
+                discounted = harga - (harga * (diskonNilai / 100));
+            } else {
+                discounted = harga - diskonNilai;
+            }
+
+            document.getElementById('diskon-preview').textContent = 
+                'Harga diskon: Rp ' + Math.max(0, Math.round(discounted)).toLocaleString('id-ID');
+        }
+
+        diskonAktifCheckbox.addEventListener('change', toggleDiskonFields);
+        hargaInput.addEventListener('input', updateDiskonPreview);
+        diskonNilaiInput.addEventListener('input', updateDiskonPreview);
+        diskonTipeSelect.addEventListener('change', updateDiskonLabel);
     </script>
 
     

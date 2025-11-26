@@ -35,6 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $deskripsi = sanitize($_POST['deskripsi'] ?? '');
     $harga = (float)($_POST['harga'] ?? 0);
     $stok = (int)($_POST['stok'] ?? 0);
+    
+    // UPDATED: Ambil dari form baru
+    $diskon_tipe = sanitize($_POST['diskon_tipe'] ?? 'persentase');
+    $diskon_nilai = (float)($_POST['diskon_nilai'] ?? 0);
+    $diskon_aktif = isset($_POST['diskon_aktif']) ? 1 : 0;
 
     if (!$category_id || empty($nama) || $harga <= 0 || $stok < 0) {
         $error = 'Semua field harus diisi dengan benar!';
@@ -52,9 +57,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (!$error) {
-            $update_query = "UPDATE products SET category_id = ?, nama = ?, deskripsi = ?, harga = ?, stok = ?, foto_utama = ? WHERE id = ?";
+            // UPDATED: Gunakan kolom baru
+            $update_query = "UPDATE products SET category_id = ?, nama = ?, deskripsi = ?, harga = ?, stok = ?, diskon_tipe = ?, diskon_nilai = ?, diskon_aktif = ?, foto_utama = ? WHERE id = ?";
             $stmt = $conn->prepare($update_query);
-            $stmt->bind_param("issdisi", $category_id, $nama, $deskripsi, $harga, $stok, $foto_utama, $product_id);
+            // FIX: Type string yang benar: "issdissidsi" punya 11 karakter
+            // Seharusnya: "issdisdisi" = 10 karakter untuk 10 variabel
+            // Urutan: category_id(i), nama(s), deskripsi(s), harga(d), stok(i), diskon_tipe(s), diskon_nilai(d), diskon_aktif(i), foto_utama(s), product_id(i)
+            $stmt->bind_param("issdisdisi", $category_id, $nama, $deskripsi, $harga, $stok, $diskon_tipe, $diskon_nilai, $diskon_aktif, $foto_utama, $product_id);
 
             if ($stmt->execute()) {
                 $success = 'Produk berhasil diperbarui!';
@@ -286,6 +295,30 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
                             <label for="stok">Stok (pcs) *</label>
                             <input type="number" id="stok" name="stok" value="<?php echo $product['stok']; ?>" min="0" required>
                         </div>
+                        <div class="form-group">
+                            <label for="diskon_aktif">
+                                <input type="checkbox" id="diskon_aktif" name="diskon_aktif" <?php echo ($product['diskon_aktif'] ?? 0) ? 'checked' : ''; ?>> Aktifkan Diskon
+                            </label>
+                        </div>
+
+                        <div class="form-group" id="diskon-fields" style="display: <?php echo ($product['diskon_aktif'] ?? 0) ? 'block' : 'none'; ?>;">
+                            <label for="diskon_tipe">Tipe Diskon *</label>
+                            <select id="diskon_tipe" name="diskon_tipe" onchange="updateDiskonLabel()">
+                                <option value="persentase" <?php echo ($product['diskon_tipe'] ?? '') === 'persentase' ? 'selected' : ''; ?>>Persentase (%)</option>
+                                <option value="nominal" <?php echo ($product['diskon_tipe'] ?? '') === 'nominal' ? 'selected' : ''; ?>>Nominal (Rp)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="diskon-nilai-group" style="display: <?php echo ($product['diskon_aktif'] ?? 0) ? 'block' : 'none'; ?>;">
+                            <label for="diskon_nilai">Nilai Diskon <span id="diskon-label"><?php echo ($product['diskon_tipe'] ?? 'persentase') === 'persentase' ? '(%)' : '(Rp)'; ?></span> *</label>
+                            <input type="number" id="diskon_nilai" name="diskon_nilai" min="0" step="0.01" value="<?php echo $product['diskon_nilai'] ?? 0; ?>">
+                            <small style="color: #666; display: block; margin-top: 0.3rem;" id="diskon-preview">
+                                Harga diskon: <?php 
+                                $discounted = calculateDiscountedPrice($product['harga'], $product['diskon_tipe'], $product['diskon_nilai'], $product['diskon_aktif']);
+                                echo formatCurrency($discounted);
+                                ?>
+                            </small>
+                        </div>
                     </div>
 
                     <div class="form-section">
@@ -332,6 +365,50 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
                 reader.readAsDataURL(input.files[0]);
             }
         }
+
+        const diskonAktifCheckbox = document.getElementById('diskon_aktif');
+        const diskonFields = document.getElementById('diskon-fields');
+        const diskonNilaiGroup = document.getElementById('diskon-nilai-group');
+        const hargaInput = document.getElementById('harga');
+        const diskonTipeSelect = document.getElementById('diskon_tipe');
+        const diskonNilaiInput = document.getElementById('diskon_nilai');
+
+        function toggleDiskonFields() {
+            if (diskonAktifCheckbox.checked) {
+                diskonFields.style.display = 'block';
+                diskonNilaiGroup.style.display = 'block';
+            } else {
+                diskonFields.style.display = 'none';
+                diskonNilaiGroup.style.display = 'none';
+            }
+        }
+
+        function updateDiskonLabel() {
+            const label = diskonTipeSelect.value === 'persentase' ? '(%)' : '(Rp)';
+            document.getElementById('diskon-label').textContent = label;
+            updateDiskonPreview();
+        }
+
+        function updateDiskonPreview() {
+            const harga = parseFloat(hargaInput.value) || 0;
+            const diskonNilai = parseFloat(diskonNilaiInput.value) || 0;
+            const diskonTipe = diskonTipeSelect.value;
+
+            let discounted = harga;
+            if (diskonTipe === 'persentase') {
+                discounted = harga - (harga * (diskonNilai / 100));
+            } else {
+                discounted = harga - diskonNilai;
+            }
+
+            document.getElementById('diskon-preview').textContent = 
+                'Harga diskon: Rp ' + Math.max(0, Math.round(discounted)).toLocaleString('id-ID');
+        }
+
+        diskonAktifCheckbox.addEventListener('change', toggleDiskonFields);
+        hargaInput.addEventListener('input', updateDiskonPreview);
+        diskonNilaiInput.addEventListener('input', updateDiskonPreview);
+        diskonTipeSelect.addEventListener('change', updateDiskonLabel);
     </script>
 
     
