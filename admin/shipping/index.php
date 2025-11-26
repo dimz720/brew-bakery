@@ -215,7 +215,7 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
 
                     <div class="form-group">
                         <label for="wilayah">Nama Wilayah/Kecamatan </label>
-                        <input type="text" id="wilayah" name="wilayah" required placeholder="Contoh: dalam kota,dll">
+                        <input type="text" id="wilayah" name="wilayah" required placeholder="Contoh: kecamatan">
                     </div>
 
                     <div class="form-group">

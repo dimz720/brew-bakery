@@ -214,7 +214,7 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
         <div class="admin-content">
             <div class="content-header">
                 <h1>📰 Manajemen Artikel</h1>
-                <a href="<?php echo ADMIN_URL; ?>articles/add.php" class="btn-add">➕ Tambah Artikel</a>
+                <a href="<?php echo ADMIN_URL; ?>articles/add-simple.php" class="btn-add">➕ Tambah Artikel</a>
             </div>
 
             <?php if ($page_success): ?>
@@ -283,7 +283,7 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
                 <p style="font-size: 3rem; margin-bottom: 1rem;">📝</p>
                 <p><strong>Belum ada artikel</strong></p>
                 <p style="color: #666; margin-bottom: 1.5rem;">Mulai dengan menulis artikel baru</p>
-                <a href="<?php echo ADMIN_URL; ?>articles/add.php" class="btn-add">➕ Buat Artikel Pertama</a>
+                <a href="<?php echo ADMIN_URL; ?>articles/add-simple.php" class="btn-add">➕ Buat Artikel Pertama</a>
             </div>
             <?php endif; ?>
         </div>
