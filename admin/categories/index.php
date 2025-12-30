@@ -33,16 +33,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Handle delete
+// Handle delete - WITH FOREIGN KEY CHECK
 if (isset($_GET['delete'])) {
     $id = (int)$_GET['delete'];
-    $delete_query = "DELETE FROM categories WHERE id = ?";
-    $stmt = $conn->prepare($delete_query);
-    $stmt->bind_param("i", $id);
     
-    if ($stmt->execute()) {
-        header("Location: " . ADMIN_URL . "categories/?success=Kategori berhasil dihapus");
-        exit();
+    // Check if category is used in products
+    $check_query = "SELECT COUNT(*) as product_count FROM products WHERE category_id = ?";
+    $check_stmt = $conn->prepare($check_query);
+    $check_stmt->bind_param("i", $id);
+    $check_stmt->execute();
+    $check_result = $check_stmt->get_result()->fetch_assoc();
+    
+    if ($check_result['product_count'] > 0) {
+        $error = "Tidak dapat menghapus kategori! Kategori ini masih digunakan oleh " . $check_result['product_count'] . " produk.";
+        $categories = $conn->query("SELECT * FROM categories ORDER BY nama")->fetch_all(MYSQLI_ASSOC);
+    } else {
+        $delete_query = "DELETE FROM categories WHERE id = ?";
+        $stmt = $conn->prepare($delete_query);
+        $stmt->bind_param("i", $id);
+        
+        if ($stmt->execute()) {
+            header("Location: " . ADMIN_URL . "categories/?success=Kategori berhasil dihapus");
+            exit();
+        } else {
+            $error = 'Terjadi kesalahan saat menghapus kategori!';
+            $categories = $conn->query("SELECT * FROM categories ORDER BY nama")->fetch_all(MYSQLI_ASSOC);
+        }
     }
 }
 
@@ -149,6 +165,7 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
         .categories-table tbody tr:hover {
             background-color: #F5F1ED;
         }
+        .btn-edit,
         .btn-delete {
             padding: 0.5rem 0.75rem;
             border: none;
@@ -157,12 +174,45 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
             text-decoration: none;
             font-size: 0.85rem;
             font-weight: 500;
+            display: inline-block;
+            margin-right: 0.5rem;
+            transition: all 0.3s;
+        }
+        .btn-edit {
+            background-color: #D4A574;
+            color: #6B4423;
+        }
+        .btn-edit:hover {
+            background-color: #63482dff;
+            color: white;
+        }
+        .btn-delete {
             background-color: #dc3545;
             color: white;
-            transition: all 0.3s;
         }
         .btn-delete:hover {
             background-color: #c82333;
+        }
+        .btn-delete:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
         }
     </style>
 </head>
@@ -214,16 +264,35 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
                         <tr>
                             <th>Nama Kategori</th>
                             <th>Deskripsi</th>
+                            <th>Produk</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($categories as $cat): ?>
+                        <?php foreach ($categories as $cat): 
+                            // Get product count for each category
+                            $prod_query = "SELECT COUNT(*) as prod_count FROM products WHERE category_id = ?";
+                            $prod_stmt = $conn->prepare($prod_query);
+                            $prod_stmt->bind_param("i", $cat['id']);
+                            $prod_stmt->execute();
+                            $prod_result = $prod_stmt->get_result()->fetch_assoc();
+                            $product_count = $prod_result['prod_count'];
+                        ?>
                         <tr>
                             <td><strong><?php echo htmlspecialchars($cat['nama']); ?></strong></td>
                             <td><?php echo htmlspecialchars($cat['deskripsi']); ?></td>
                             <td>
-                                <a href="?delete=<?php echo $cat['id']; ?>" class="btn-delete" onclick="return confirm('Yakin ingin menghapus kategori ini?')">🗑️ Hapus</a>
+                                <span style="<?php echo $product_count > 0 ? 'color: #ffc107; font-weight: bold;' : 'color: #28a745;'; ?>">
+                                    <?php echo $product_count; ?> produk
+                                </span>
+                            </td>
+                            <td>
+                                <a href="<?php echo ADMIN_URL; ?>categories/edit.php?id=<?php echo $cat['id']; ?>" class="btn-edit">✏️ Edit</a>
+                                <a href="?delete=<?php echo $cat['id']; ?>" class="btn-delete" 
+                                   onclick="<?php echo $product_count > 0 ? "alert('Kategori ini masih digunakan oleh " . $product_count . " produk'); return false;" : "return confirm('Yakin ingin menghapus kategori ini?');"; ?>"
+                                   <?php echo $product_count > 0 ? 'disabled' : ''; ?>>
+                                    🗑️ Hapus
+                                </a>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -235,6 +304,5 @@ $page_success = isset($_GET['success']) ? sanitize($_GET['success']) : '';
             </div>
         </div>
     </div>
-
 </body>
 </html>
